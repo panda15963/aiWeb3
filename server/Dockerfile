@@ -10,9 +10,6 @@ COPY . .
 # 의존성 설치
 RUN npm install
 
-# 애플리케이션 빌드
-RUN npm run build
-
 # 포트 설정
 EXPOSE 3001
 
