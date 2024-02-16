@@ -18,6 +18,17 @@ git merge --no-ff branchName # Merge a branch into the current branch without a 
 git merge --squash branchName # Merge a branch into the current branch and squash all of the commits into a single commit
 git merge --strategy=ours branchName # Merge a branch into the current branch using the "ours" merge strategy
 git merge --strategy-option=theirs branchName # Merge a branch into the current branch using the "theirs" merge strategy
+git add . # Add all files to the staging area
+git add -u # Add modified and deleted files to the staging area
+git add -A # Add all files to the staging area
+git commit -m "commit message" # Commit all files in the staging area
+git commit -am "commit message" # Commit all files in the staging area
+git commit --amend # Amend the last commit
+git commit --no-verify # Commit all files in the staging area without running the pre-commit hooks
+git commit --no-verify -m "commit message" # Commit all files in the staging area without running the pre-commit hooks
+git reset --soft HEAD~1 # Undo the last commit and move the changes back to the staging area
+git reset --mixed HEAD~1 # Undo the last commit and move the changes back to the working directory
+git reset --hard HEAD~1 # Undo the last commit and remove the changes from the working directory
 ```
 
 ## Solution
