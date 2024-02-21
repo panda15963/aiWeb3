@@ -5,6 +5,7 @@ export default function Document({children}: { children: ReactNode }) {
   return (
     <Html lang="en">
       <Head />
+      <title>GENAIMAGE</title>
       <body>
         {children}
         <Main />
