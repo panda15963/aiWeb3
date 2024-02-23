@@ -1,13 +1,14 @@
 import React from "react";
-import Navbar from './components/navbar';
+import Navbar from "./components/navbar";
 import Footer from "./components/Footer";
-import 'tailwindcss/tailwind.css';
-export default function App() {  ;
+export default function App() {
   return (
-    <div>
+    <>
       <Navbar />
-      <h1>Hello World</h1>
+      <div className="container">
+        <h1>Hello World</h1>
+      </div>
       <Footer />
-    </div>
+    </>
   );
-};
+}
