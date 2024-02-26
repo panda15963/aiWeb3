@@ -11,6 +11,45 @@ const mainnet = {
   currency: "ETH",
   explorerUrl: "https://etherscan.io",
   rpcUrl: "https://cloudflare-eth.com",
+  nativeCurrency: {
+    name: "ETH",
+    symbol: "ETH",
+    decimals: 18,
+  },
+  network: "mainnet",
+  logoUrl: "https://web3modal.com/favicon.ico",
+  iconUrl: "https://web3modal.com/favicon.ico",
+  faviconUrl: "https://web3modal.com/favicon.ico",
+  blockExplorerUrl: "https://etherscan.io",
+  testnet: false,
+  rpcUrls: {
+    alchemy: "https://eth-mainnet.g.alchemy.com/v2/",
+    infura: "https://mainnet.infura.io/v3/",
+    public: "https://cloudflare-eth.com",
+  },
+};
+const rinkeby = {
+  chainId: 4,
+  name: "Rinkeby",
+  currency: "ETH",
+  explorerUrl: "https://rinkeby.etherscan.io",
+  rpcUrl: "https://rinkeby.infura.io/v3/",
+  nativeCurrency: {
+    name: "ETH",
+    symbol: "ETH",
+    decimals: 18,
+  },
+  network: "rinkeby",
+  logoUrl: "https://web3modal.com/favicon.ico",
+  iconUrl: "https://web3modal.com/favicon.ico",
+  faviconUrl: "https://web3modal.com/favicon.ico",
+  blockExplorerUrl: "https://rinkeby.etherscan.io",
+  testnet: true,
+  rpcUrls: {
+    alchemy: "https://eth-rinkeby.alchemyapi.io/v2/",
+    infura: "https://rinkeby.infura.io/v3/",
+    public: "https://rinkeby.infura.io/v3/",
+  },
 };
 const metadata = {
   name: "Next Starter Template",
@@ -22,7 +61,7 @@ const metadata = {
 const ethersConfig = defaultConfig({ metadata });
 createWeb3Modal({
   ethersConfig: ethersConfig,
-  chains: [mainnet],
+  chains: [mainnet, rinkeby],
   projectId: projectId || "", // Provide a default value for projectId
   enableAnalytics: true, // Optional - defaults to your Cloud configuration
 });
