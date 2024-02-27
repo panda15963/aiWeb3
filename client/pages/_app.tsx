@@ -59,12 +59,7 @@ const metadata = {
   icons: ["https://avatars.githubusercontent.com/u/37784886"],
 };
 const ethersConfig = defaultConfig({ metadata });
-createWeb3Modal({
-  ethersConfig: ethersConfig,
-  chains: [mainnet, rinkeby],
-  projectId: projectId || "", // Provide a default value for projectId
-  enableAnalytics: true, // Optional - defaults to your Cloud configuration
-});
+
 export default function App({ Component, pageProps }: AppProps) {
   const [ready, setReady] = useState(false);
 
@@ -73,11 +68,9 @@ export default function App({ Component, pageProps }: AppProps) {
   }, []);
   return (
     <>
-      {ready ? (
-          <NextUIProvider>
-            <Component {...pageProps} />
-          </NextUIProvider>
-      ) : null}
+      <NextUIProvider>
+        <Component {...pageProps} />
+      </NextUIProvider>
     </>
   );
 }
