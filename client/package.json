@@ -29,6 +29,7 @@
     "@web3modal/react": "^2.7.1",
     "@web3modal/wagmi": "^4.0.9",
     "dotenv": "^16.4.5",
+    "eslint": "^8.57.0",
     "ethereumjs-tx": "^2.1.2",
     "ethereumjs-util": "^7.1.5",
     "ethers": "^5.7.2",
