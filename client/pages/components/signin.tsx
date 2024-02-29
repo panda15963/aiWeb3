@@ -5,9 +5,9 @@ import { IoClose } from "react-icons/io5";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 import Link from "next/link";
+import { useUser } from "./context/UserContext";
 
 const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_KEY;
-
 const SignIn = () => {
   const [provider, setProvider] = useState<
     ethers.providers.Web3Provider | undefined
@@ -21,6 +21,7 @@ const SignIn = () => {
   const [balance, setBalance] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [close, setClose] = useState(false);
+  const { login } = useUser();
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
@@ -32,6 +33,7 @@ const SignIn = () => {
     setAccount(undefined);
     setProvider(undefined);
     setLibrary(undefined);
+    login(undefined);
   };
   const connect = async () => {
     try {
@@ -78,7 +80,8 @@ const SignIn = () => {
       setBalance(balanceEther);
       setProvider(provider);
       setLibrary(ethersProvider);
-      setAccount(address); // Fix: Cast 'address' to string
+      setAccount(address);
+      login(address);
     } catch (error: any) {
       setError(error.message);
       setLoading(false);
@@ -98,11 +101,11 @@ const SignIn = () => {
                 className="h-10 w-10 rounded-full"
               />
               <p className="text-white font-bold tracking-wide px-2">
-                {account.slice(0, 7)}...
+                {account.slice(0, 6)}...{account.slice(-6)}
               </p>
             </button>
             {isDropdownOpen && (
-              <div className="text-right absolute mt-40 w-48 right-1 z-1 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
+              <div className="text-right absolute mt-40 w-48  rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                 <div className="py-1">
                   <button
                     className="text-left px-4 py-1 text-lg font-bold text-gray-700 hover:bg-gray-100 hover:text-gray-900"

@@ -42,7 +42,25 @@ const Navbar = () => {
           }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
           <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto">
-            <Signin/>
+            <div className="px-2 lg:inline-flex lg:w-auto w-full lg:">
+              <Link
+                href="/components/service"
+                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-sky-900"
+              >
+                Service
+              </Link>
+            </div>
+            <div className="px-2 lg:inline-flex lg:w-auto w-full lg:">
+              <Link
+                href="/components/prices/pricing"
+                className="lg:inline-flex lg:w-auto w-full px-3 py-2 rounded text-white font-bold items-center justify-center hover:bg-sky-900"
+              >
+                Pricing
+              </Link>
+            </div>
+            <div className="px-2 py-2 lg:inline-flex lg:w-auto w-full">
+              <Signin />
+            </div>
           </div>
         </div>
       </nav>
