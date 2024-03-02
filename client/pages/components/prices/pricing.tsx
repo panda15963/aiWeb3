@@ -5,6 +5,7 @@ import Footer from "../Footer";
 import { useUser } from "../context/UserContext";
 import styles from "./pricing.module.css";
 
+// Define an interface for PricingTierFrequency, containing id, value, label, and priceSuffix properties
 export interface PricingTierFrequency {
   id: string;
   value: string;
@@ -12,6 +13,7 @@ export interface PricingTierFrequency {
   priceSuffix: string;
 }
 
+// Define an interface for PricingTier, containing name, id, href, discountPrice, price, description, features, featured, highlighted, cta, and soldOut properties
 export interface PricingTier {
   name: string;
   id: string;
@@ -26,10 +28,12 @@ export interface PricingTier {
   soldOut?: boolean;
 }
 
+// Initialize an array of frequencies with one object
 export const frequencies: PricingTierFrequency[] = [
   { id: "1", value: "1", label: "Every Times", priceSuffix: "/usage" },
 ];
 
+// Initialize an array of tiers with three objects
 export const tiers: PricingTier[] = [
   {
     name: "Text-to-Image",
@@ -79,6 +83,7 @@ export const tiers: PricingTier[] = [
   },
 ];
 
+// Define a functional component for CheckIcon
 const CheckIcon = ({ className }: { className?: string }) => {
   return (
     <svg

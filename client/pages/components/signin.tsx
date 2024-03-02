@@ -1,10 +1,16 @@
 import React, { useState } from "react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+  Spinner,
+} from "@nextui-org/react";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import WalletConnect from "@walletconnect/web3-provider";
-import { IoClose } from "react-icons/io5";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
-import Link from "next/link";
 import { useUser } from "./context/UserContext";
 
 const INFURA_ID = process.env.NEXT_PUBLIC_INFURA_KEY;
@@ -12,28 +18,11 @@ const SignIn = () => {
   const [provider, setProvider] = useState<
     ethers.providers.Web3Provider | undefined
   >();
-  const [library, setLibrary] = useState<
-    ethers.providers.Web3Provider | undefined
-  >();
-  const [account, setAccount] = useState<string | undefined>();
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [balance, setBalance] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [close, setClose] = useState(false);
-  const { login } = useUser();
-  const toggleDropdown = () => {
-    setIsDropdownOpen(!isDropdownOpen);
-  };
-  const toggleClose = () => {
-    setClose(!close);
-    setIsDropdownOpen(false);
-  };
+  const { user, login, logout } = useUser();
   const disconnect = async () => {
-    setAccount(undefined);
     setProvider(undefined);
-    setLibrary(undefined);
-    login(undefined);
+    logout();
   };
   const connect = async () => {
     try {
@@ -72,72 +61,64 @@ const SignIn = () => {
 
       // Get the connected wallet's address
       const address: any = await signer.getAddress();
-
-      // Convert the balance from wei to ether
-      const balanceEther = ethers.utils.formatEther(
-        await ethersProvider.getBalance(address)
-      );
-      setBalance(balanceEther);
       setProvider(provider);
-      setLibrary(ethersProvider);
-      setAccount(address);
       login(address);
     } catch (error: any) {
-      setError(error.message);
       setLoading(false);
+      alert(error.message);
     }
   };
   return (
     <>
       <div className="flex flex-col justify-center">
-        {account ? (
+        {user ? (
           <>
-            <button
-              onClick={toggleDropdown}
-              className="relative flex items-center"
-            >
-              <img
-                src="https://avatars.githubusercontent.com/u/37784886"
-                className="h-10 w-10 rounded-full"
-              />
-              <p className="text-white font-bold tracking-wide px-2">
-                {account.slice(0, 6)}...{account.slice(-6)}
-              </p>
-            </button>
-            {isDropdownOpen && (
-              <div className="text-right absolute mt-40 w-48  rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div className="py-1">
-                  <button
-                    className="text-left px-4 py-1 text-lg font-bold text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                    onClick={toggleClose}
+            {loading === true ? (
+              <Dropdown backdrop="blur">
+                <DropdownTrigger>
+                  <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900">
+                    <img
+                      src="https://avatars.githubusercontent.com/u/37784886"
+                      className="h-10 w-10 rounded-full"
+                    />
+                    <p className="text-white font-bold tracking-wide px-2">
+                      {user.slice(0, 6)}...{user.slice(-6)}
+                    </p>
+                  </Button>
+                </DropdownTrigger>
+                <DropdownMenu>
+                  <DropdownItem
+                    href="/components/accounts"
+                    className="text-center py-2 block px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                   >
-                    <IoClose />
-                  </button>
-                  <Link
-                    href="/components/Profile"
-                    className="text-center block px-4 py-1 text-sm pr-2 font-bold text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                  >
-                    My Account
-                  </Link>
-                  <button
+                    <div className="font-bold">Account</div>
+                  </DropdownItem>
+                  <DropdownItem
                     onClick={disconnect}
-                    className="text-center block pl-16 py-2 text-sm font-bold text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                    className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                   >
-                    Disconnect
-                  </button>
+                    <div className="font-bold">Disconnect</div>
+                  </DropdownItem>
+                </DropdownMenu>
+              </Dropdown>
+            ) : (
+              <Button className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded hover: cursor-pointer justify-center item-center">
+                <div className="pl-2">
+                  <Spinner size="sm" className="mr-2" />
+                  Loading...
                 </div>
-              </div>
+              </Button>
             )}
           </>
         ) : (
-          <div>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded hover: cursor-pointer justify-center item-center"
+          <>
+            <Button
+              className="bg-sky-600 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded hover: cursor-pointer justify-center item-center"
               onClick={connect}
             >
               Connect
-            </button>
-          </div>
+            </Button>
+          </>
         )}
       </div>
     </>

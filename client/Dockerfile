@@ -10,6 +10,9 @@ COPY . .
 # 의존성 설치
 RUN npm install
 
+# 빌드 명령어 실행
+RUN npm run build
+
 # 포트 설정
 EXPOSE 3000
 
