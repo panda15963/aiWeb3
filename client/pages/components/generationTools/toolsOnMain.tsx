@@ -19,7 +19,7 @@ const ToolsInformation: InformationTools[] = [
     image: "/images/hero-card-complete.jpeg",
     tool_link: "/frontend-radio",
     price: "2 USD",
-    price_link: "/pricing",
+    price_link: "/components/prices/pricing",
   },
   {
     title: "Image to Image",
@@ -27,7 +27,7 @@ const ToolsInformation: InformationTools[] = [
     image: "/images/hero-card-complete.jpeg",
     tool_link: "/backend-radio",
     price: "3.5 USD",
-    price_link: "/pricing",
+    price_link: "/components/prices/pricing",
   },
   {
     title: "Multi-Promping",
@@ -35,7 +35,7 @@ const ToolsInformation: InformationTools[] = [
     image: "/images/hero-card-complete.jpeg",
     tool_link: "/fullstack-radio",
     price: "6 USD",
-    price_link: "/pricing",
+    price_link: "/components/prices/pricing",
   },
 ];
 const ToolsOnMain = () => {

@@ -38,19 +38,30 @@ const SignIn = () => {
               infuraId: INFURA_ID,
             },
           },
-          coinbasewallet: {
+          coinbaseWallet: {
             package: CoinbaseWalletSDK,
             options: {
-              appName: "Web 3 Modal Demo",
-              infuraId: INFURA_ID,
+              appName: "Next.js Dapp",
+              network: "mainnet",
             },
-          },
+          },        
         };
-        const web3Modal = new Web3Modal({
-          cacheProvider: true,
-          providerOptions,
+        const provider = await window.ethereum.request({
+          method: "eth_requestAccounts",
+          cachesProvider: true,
+          providerOptions
         });
-        const provider = await web3Modal.connect();
+        if (provider) {
+          setProvider(provider);
+        } else {
+          const web3Modal = new Web3Modal({
+            network: "mainnet",
+            cacheProvider: true,
+            providerOptions,
+          });
+          const provider = await web3Modal.connect();
+          setProvider(provider);
+        }
         setProvider(provider);
       }
       // Get the ethers provider
