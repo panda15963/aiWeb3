@@ -1,13 +1,27 @@
 import React from "react";
-import Navbar from './components/navbar';
+import Navbar from "./components/navbar";
 import Footer from "./components/Footer";
-import 'tailwindcss/tailwind.css';
-export default function App() {  ;
+import ToolsOnMain from "./components/generationTools/toolsOnMain";
+import EthereumChart from "./components/EthereumChart";
+
+// Defining the main Index component
+export default function Index() {
   return (
-    <div>
+    <div className="bg-white">
+      {/* Rendering the Navbar component */}
       <Navbar />
-      <h1>Hello World</h1>
+      {/* Rendering the ToolsOnMain component */} 
+      <div className="col-12 pb-4 mx-auto">
+        <EthereumChart />
+      </div>
+      <div className="col-12 pb-4 mx-auto">
+        <h1 className="text-center text-4xl font-bold mt-8 pb-4">
+          Choose your tool
+        </h1>
+        <ToolsOnMain />
+      </div>
+      {/* Rendering the Footer component */}
       <Footer />
     </div>
   );
-};
+}
