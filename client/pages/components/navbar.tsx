@@ -1,5 +1,3 @@
-// src/components/Navbar.tsx
-
 import React, { useState } from "react";
 import {
   Button,

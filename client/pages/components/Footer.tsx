@@ -22,4 +22,6 @@ const Footer = () => {
     )
   );
 };
+
+// Export the Footer component for use in other files
 export default Footer;
