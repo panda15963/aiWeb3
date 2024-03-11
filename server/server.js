@@ -20,20 +20,6 @@ db.connect((err) => {
   }
   console.log('Connected to database');
 });
-app.post('/api/ethereum', (req, res) => {
-  const { address } = req.body;
-  const sql = `SELECT * FROM ethereum WHERE address = '${address}'`;
-  db.query(sql, (err, result) => {
-    if (err) {
-      res.send({ error: err.message });
-    }
-    if (result.length > 0) {
-      res.send({ data: result[0] });
-    } else {
-      res.send({ data: null });
-    }
-  });
-});
 const port = 8000;
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
