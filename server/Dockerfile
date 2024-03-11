@@ -11,7 +11,7 @@ COPY . .
 RUN npm install
 
 # 포트 설정
-EXPOSE 3001
+EXPOSE 8000
 
 # 애플리케이션 실행
 CMD ["node", "server.js"]

@@ -1,57 +1,63 @@
-import React, { FC, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { QuoationService } from "node-upbit";
 import { ICandleDayReturnProps } from "node-upbit/lib/@types/quotation";
-
+import axios from "axios";
 interface IData {
   dayData: ICandleDayReturnProps[];
 }
 
-const UpbitApi: FC = () => {
+const UpbitApi = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<IData>({
     dayData: [],
   });
 
   const quoationService = new QuoationService();
-
+  // Fetch data when component mounts
   const fetchData = async () => {
     try {
       // Fetch the day candles data
       const dayCandles = await quoationService.getDayCandles({
         marketCoin: "KRW-ETH",
-        count: 200,
+        count: 5,
       });
-
-      // Update the state variable with the fetched data
       setData({
         dayData: dayCandles,
       });
-      console.log(dayCandles);
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
-  };
-
+  }
   useEffect(() => {
-    fetchData();
+    const sendData = async () => {
+      try {
+        const res = await axios.post('http://localhost:8000/api/ethereum', {
+          data: data.dayData
+        });
+        console.log(res);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    sendData();
   }, []);
-
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>Loading ...</div>;
+  } else if (!data) {
+    return <div>No data available</div>;
   }
 
   return (
     <div>
-      <h1>Day</h1>
+      <h1>Upbit API</h1>
+      <h3>Day candles</h3>
       <ul>
-        {data.dayData.map((candle, index) => (
-          <li key={index}>
-            {candle.candle_date_time_kst}
-            {candle.trade_price}
+        {data.dayData.map((dayCandle) => (
+          <li key={dayCandle.timestamp}>
+            <p>Timestamp: {dayCandle.trade_price}</p>
           </li>
-
         ))}
       </ul>
     </div>
