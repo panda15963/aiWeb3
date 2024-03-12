@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { QuoationService } from "node-upbit";
-import { ICandleDayReturnProps } from "node-upbit/lib/@types/quotation";
+import { ICandleDayReturnProps, ICandleWeekReturnProps, ICandlesMonthProps } from "node-upbit/lib/@types/quotation";
 import axios from "axios";
 interface IData {
-  dayData: ICandleDayReturnProps[];
+  dayData?: ICandleDayReturnProps[];
+  weekData?: ICandleWeekReturnProps[];
+  monthData?: ICandlesMonthProps[];
 }
 
 const UpbitApi = () => {
@@ -11,12 +13,9 @@ const UpbitApi = () => {
   const [data, setData] = useState<IData>({
     dayData: [],
   });
-
-  const quoationService = new QuoationService();
-  // Fetch data when component mounts
   const fetchData = async () => {
     try {
-      // Fetch the day candles data
+      const quoationService = new QuoationService();
       const dayCandles = await quoationService.getDayCandles({
         marketCoin: "KRW-ETH",
         count: 5,
@@ -30,19 +29,21 @@ const UpbitApi = () => {
       setLoading(false);
     }
   }
-  useEffect(() => {
-    const sendData = async () => {
-      try {
-        const res = await axios.post('http://localhost:8000/api/ethereum', {
-          data: data.dayData
-        });
-        console.log(res);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    sendData();
-  }, []);
+  fetchData();
+  // useEffect(() => {
+  //   fetchData()
+  //   const sendData = async () => {
+  //     try {
+  //       const res = await axios.post('http://localhost:8000/api/ethereum', {
+  //         data: data.dayData
+  //       });
+  //       console.log(res);
+  //     } catch (error) {
+  //       console.error(error);
+  //     }
+  //   }
+  //   sendData();
+  // }, []);
   if (loading) {
     return <div>Loading ...</div>;
   } else if (!data) {
@@ -54,9 +55,9 @@ const UpbitApi = () => {
       <h1>Upbit API</h1>
       <h3>Day candles</h3>
       <ul>
-        {data.dayData.map((dayCandle) => (
-          <li key={dayCandle.timestamp}>
-            <p>Timestamp: {dayCandle.trade_price}</p>
+        {data.dayData?.map((candle) => (
+          <li key={candle.candle_date_time_kst}>
+            {candle.prev_closing_price}
           </li>
         ))}
       </ul>
