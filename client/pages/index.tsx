@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./components/navbar";
 import Footer from "./components/Footer";
 import ToolsOnMain from "./components/generationTools/toolsOnMain";
-import EthereumChart from "./components/EthereumApi";
+import EthereumChart from "./components/ethereumAPI/EthereumApi";
 
 // Defining the main Index component
 export default function Index() {
