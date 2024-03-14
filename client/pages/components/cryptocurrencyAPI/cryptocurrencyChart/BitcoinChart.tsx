@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { useFetchData } from './useFetchData';
+import { useFetchData } from '../useFetchData';
 import { Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,

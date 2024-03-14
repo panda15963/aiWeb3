@@ -1,7 +1,7 @@
 import React, { FC, useState, createElement } from "react";
 import { useFetchData } from "./useFetchData";
-import EthereumData from "./EthereumChart";
-import BitcoinData from "./BitcoinChart";
+import EthereumData from "./cryptocurrencyChart/EthereumChart";
+import BitcoinData from "./cryptocurrencyChart/BitcoinChart";
 import { Spinner } from '@nextui-org/react';
 
 const CHART_COMPONENTS = {  
@@ -22,7 +22,7 @@ const Prices:FC = () => {
           {Object.entries(CHART_COMPONENTS).map(([currency]) => (
             <button
               onClick={() => handleShowDisplay(currency)}
-              className="bg-white p-4 rounded shadow text-left"
+              className="bg-white p-4 rounded shadow-xl text-left"
               key={currency}
             >
               <p className="text-lg font-bold">{currency}</p>
@@ -33,7 +33,7 @@ const Prices:FC = () => {
       </section>
       <section className="my-8">
         <h2 className="text-xl font-bold mb-4">Charts</h2>
-        <div className="bg-white p-4 rounded shadow">
+        <div className="bg-white p-4 rounded shadow-xl">
           <h1 className="text-xl font-bold text-center py-2">{selectedCurrency}</h1>
           {selectedCurrency && CHART_COMPONENTS[selectedCurrency as keyof typeof CHART_COMPONENTS] ? (
             createElement(CHART_COMPONENTS[selectedCurrency as keyof typeof CHART_COMPONENTS])

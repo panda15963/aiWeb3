@@ -33,22 +33,22 @@ export const useFetchData = ({ marketCoin }: IUseFetchDataProps) => {
       const minutesCandles = await quoationService.getMinutesCandles({
         minutes: '60',
         marketCoin,
-        count: 10,
+        count: 25,
       });
 
       const dayCandles = await quoationService.getDayCandles({
         marketCoin,
-        count: 5,
+        count: 8,
       });
 
       const weekCandles = await quoationService.getWeekCandles({
         marketCoin,
-        count: 5,
+        count: 6,
       });
 
       const monthCandles = await quoationService.getMonthCandles({
         marketCoin,
-        count: 5,
+        count: 12,
       });
 
       setData({
