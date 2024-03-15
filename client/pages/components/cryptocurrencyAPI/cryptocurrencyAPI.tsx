@@ -1,16 +1,18 @@
 import React, { FC, useState, createElement } from "react";
 import { useFetchData } from "./useFetchData";
-import EthereumData from "./cryptocurrencyChart/EthereumChart";
 import BitcoinData from "./cryptocurrencyChart/BitcoinChart";
+import EthereumData from "./cryptocurrencyChart/EthereumChart";
+import SandboxData from "./cryptocurrencyChart/SandboxChart";
 import { Spinner } from '@nextui-org/react';
 
 const CHART_COMPONENTS = {  
   Bitcoin: BitcoinData,
   Ethereum: EthereumData,
+  SandBox: SandboxData,
 };
 
 const Prices:FC = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState<string>("Ethereum");
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("Bitcoin");
   const handleShowDisplay = (cryptocurrency: string) => {
     setSelectedCurrency(cryptocurrency);
   };

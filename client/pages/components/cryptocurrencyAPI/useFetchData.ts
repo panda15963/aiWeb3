@@ -3,15 +3,14 @@ import { QuoationService } from "node-upbit";
 import {
   ICandleDayReturnProps,
   ICandleWeekReturnProps, 
-  ICandlesMonthReturnProps,
   ICandleReturnProps
 } from "node-upbit/lib/@types/quotation";
 
 interface IData {
-  minutesData: ICandleReturnProps[];
+  minutesDataforDay: ICandleReturnProps[];
+  minutesDataforWeek: ICandleReturnProps[];
   dayData: ICandleDayReturnProps[];
   weekData: ICandleWeekReturnProps[];
-  monthData: ICandlesMonthReturnProps[];
 }
 
 interface IUseFetchDataProps {
@@ -20,42 +19,43 @@ interface IUseFetchDataProps {
 
 export const useFetchData = ({ marketCoin }: IUseFetchDataProps) => {
   const [data, setData] = useState<IData>({
-    minutesData: [],
+    minutesDataforDay: [],
+    minutesDataforWeek: [],
     dayData: [],
     weekData: [],
-    monthData: [],
   });
   const [loading, setLoading] = useState(true);
   const quoationService = new QuoationService();
 
   const fetchData = async () => {
     try {
-      const minutesCandles = await quoationService.getMinutesCandles({
+      const dayCandles = await quoationService.getMinutesCandles({
         minutes: '60',
         marketCoin,
         count: 25,
       });
 
-      const dayCandles = await quoationService.getDayCandles({
+      const weekCandles = await quoationService.getMinutesCandles({
+        minutes: '60',
         marketCoin,
-        count: 8,
+        count: 169,
       });
 
-      const weekCandles = await quoationService.getWeekCandles({
+      const monthCandles = await quoationService.getDayCandles({
         marketCoin,
-        count: 6,
+        count: 32,
       });
 
-      const monthCandles = await quoationService.getMonthCandles({
+      const yearCandles = await quoationService.getWeekCandles({
         marketCoin,
-        count: 12,
+        count: 53,
       });
 
       setData({
-        minutesData: minutesCandles,
-        dayData: dayCandles,
-        weekData: weekCandles,
-        monthData: monthCandles,
+        minutesDataforDay: dayCandles,
+        minutesDataforWeek: weekCandles,
+        dayData: monthCandles,
+        weekData: yearCandles,
       });
     } catch (error) {
       console.error(error);

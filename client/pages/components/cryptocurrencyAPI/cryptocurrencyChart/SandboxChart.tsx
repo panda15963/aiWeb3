@@ -57,8 +57,8 @@ type dataChart = {
     };
 }
 
-const BitcoinData: FC = () => {
-    const { data, loading } = useFetchData({ marketCoin: 'KRW-BTC' });
+const SandboxData: FC = () => {
+    const { data, loading } = useFetchData({ marketCoin: 'KRW-SAND' });
     const [ selectedTime, setSelectedTime ] = useState<string>(TIME_COMPONENT.hourlyData);
     const [ dateActive, setDateActive ] = useState<string>('1 Day');
 
@@ -90,13 +90,13 @@ const BitcoinData: FC = () => {
         dateList.push(data.minutesDataforDay[i].candle_date_time_kst.match(timeRegexp));
         dateList[i] = dateList[i].slice(1, 3)
     }
-
+    
     const DateTimeChart: dataChart[] = [
         {
             labels: dateList.map((item:any) => item),
             datasets: [
                 {
-                    label: 'BTC-KRW',
+                    label: 'BTC-SAND',
                     data: data.minutesDataforDay.map((item) => item.trade_price),
                     fill: false,
                     backgroundColor: 'rgb(6, 182, 212)',
@@ -113,7 +113,7 @@ const BitcoinData: FC = () => {
                     },
                     title: {
                         display: true,
-                        text: "BTC-KRW",
+                        text: "BTC-SAND",
                     },
                 },
             },
@@ -122,7 +122,7 @@ const BitcoinData: FC = () => {
             labels: dateList.map((item:any) => item),
             datasets: [
                 {
-                    label: 'BTC-KRW',
+                    label: 'BTC-SAND',
                     data: data.minutesDataforWeek.map((item) => item.trade_price),
                     fill: false,
                     backgroundColor: 'rgb(0, 0, 255)',
@@ -139,7 +139,7 @@ const BitcoinData: FC = () => {
                     },
                     title: {
                         display: true,
-                        text: "BTC-KRW",
+                        text: "BTC-SAND",
                     },
                 },
             },
@@ -148,7 +148,7 @@ const BitcoinData: FC = () => {
             labels: dateList.map((item:any) => item),
             datasets: [
                 {
-                    label: 'BTC-KRW',
+                    label: 'BTC-SAND',
                     data: data.dayData.map((item) => item.trade_price),
                     fill: false,
                     backgroundColor: 'rgb(255, 0, 0)',
@@ -165,7 +165,7 @@ const BitcoinData: FC = () => {
                     },
                     title: {
                         display: true,
-                        text: "BTC-KRW",
+                        text: "BTC-SAND",
                     },
                 },
             },
@@ -249,4 +249,4 @@ const BitcoinData: FC = () => {
         </>
     );
 };
-export default BitcoinData;
+export default SandboxData;
