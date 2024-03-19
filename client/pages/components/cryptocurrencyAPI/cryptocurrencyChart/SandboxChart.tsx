@@ -88,7 +88,7 @@ const SandboxData: FC = () => {
     const dateList: any = [];
     for (let i = 0; i < data.minutesDataforDay.length; i++) {
         dateList.push(data.minutesDataforDay[i].candle_date_time_kst.match(timeRegexp));
-        dateList[i] = dateList[i].slice(1, 3)
+        dateList[i] = dateList[i].slice(1, 3).join(' ');
     }
     
     const DateTimeChart: dataChart[] = [
@@ -102,7 +102,7 @@ const SandboxData: FC = () => {
                     backgroundColor: 'rgb(6, 182, 212)',
                     borderColor: 'rgba(6, 182, 212, 0.2)',
                     tension: 0.5,
-                    pointRadius: 0,
+                    pointRadius: 3,
                 },
             ],
             option: {
