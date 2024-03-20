@@ -7,6 +7,7 @@ import {
 } from "node-upbit/lib/@types/quotation";
 
 interface IData {
+  [x: string]: any;
   minutesDataforDay: ICandleReturnProps[];
   minutesDataforWeek: ICandleReturnProps[];
   dayData: ICandleDayReturnProps[];
