@@ -138,7 +138,7 @@ const BitcoinChart = () => {
                                                         },
                                                         yaxis: {
                                                             title: {
-                                                                text:"Price",
+                                                                text: "Price(₩)",
                                                             },
                                                         },
                                                     }}

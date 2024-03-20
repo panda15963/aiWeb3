@@ -29,9 +29,13 @@ const BitcoinChart = () => {
     const series = [
         {
             data: data.minutesDataforDay.map((item) => {
+                let open = item.opening_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+                let high = item.high_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                let low = item.low_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                let trade = item.trade_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 return {
                     x: new Date(item.timestamp),
-                    y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
+                    y: [open, high, low, trade],
                 };
             }),
         },
@@ -121,7 +125,6 @@ const BitcoinChart = () => {
                         <Col lg="4">
                             <Card>
                                 <CardBody>
-
                                     {displayGraphs.map((item, index) => (
                                         <div className="chart-area">
                                             {selectedTime === Object.keys(TIME_COMPONENT)[index] && (
@@ -139,7 +142,7 @@ const BitcoinChart = () => {
                                                         },
                                                         yaxis: {
                                                             title: {
-                                                                text: "Price",
+                                                                text: "Price(₩)",
                                                             },
                                                         },
                                                     }}

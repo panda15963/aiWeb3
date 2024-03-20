@@ -121,7 +121,6 @@ const BitcoinChart = () => {
                         <Col lg="4">
                             <Card>
                                 <CardBody>
-
                                     {displayGraphs.map((item, index) => (
                                         <div className="chart-area">
                                             {selectedTime === Object.keys(TIME_COMPONENT)[index] && (
@@ -139,7 +138,7 @@ const BitcoinChart = () => {
                                                         },
                                                         yaxis: {
                                                             title: {
-                                                                text: "Price",
+                                                                text: "Price(₩)",
                                                             },
                                                         },
                                                     }}
