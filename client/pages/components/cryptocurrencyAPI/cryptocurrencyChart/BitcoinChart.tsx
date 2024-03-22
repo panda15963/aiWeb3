@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardBody, Row, Col } from "reactstrap";
 import { useFetchData } from "../useFetchData";
 import dynamic from "next/dynamic";
@@ -16,8 +16,8 @@ type dateTime = {
 
 const BitcoinChart = () => {
     const { data, loading } = useFetchData({ marketCoin: "KRW-BTC" });
-    const [selectedTime, setSelectedTime] = React.useState<string>("hourlyData");
-    const [dateActive, setDateActive] = React.useState<string>('1 Day');
+    const [selectedTime, setSelectedTime] = useState<string>("hourlyData");
+    const [dateActive, setDateActive] = useState<string>('1 Day');
 
     const TIME_COMPONENT = {
         hourlyData: "hourlyData",
@@ -29,20 +29,16 @@ const BitcoinChart = () => {
     const series = [
         {
             data: data.minutesDataforDay.map((item) => {
-                let open = item.opening_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-                let high = item.high_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                let low = item.low_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                let trade = item.trade_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                 return {
-                    x: new Date(item.timestamp),
-                    y: [open, high, low, trade],
+                    x: new Date(item.timestamp + 1000 * 60 * 60 * 9),
+                    y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
                 };
             }),
         },
         {
             data: data.minutesDataforWeek.map((item) => {
                 return {
-                    x: new Date(item.timestamp),
+                    x: new Date(item.timestamp + 1000 * 60 * 60 * 9),
                     y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
                 };
             }),
@@ -50,15 +46,15 @@ const BitcoinChart = () => {
         {
             data: data.dayData.map((item) => {
                 return {
-                    x: new Date(item.timestamp),
+                    x: new Date(item.timestamp + 1000 * 60 * 60 * 9),
                     y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
                 };
             }),
         },
         {
-            data: data.weekData.map((item) => {
+            data: data.weekData.map((item): any => {
                 return {
-                    x: new Date(item.timestamp),
+                    x: new Date(item.timestamp + 1000 * 60 * 60 * 9),
                     y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
                 };
             }),
@@ -131,18 +127,37 @@ const BitcoinChart = () => {
                                                 <ReactApexChart
                                                     options={{
                                                         chart: {
-                                                            type: "candlestick",
-                                                            height: 350,
+                                                            animations: {
+                                                                enabled: true,
+                                                                easing: 'easeout',
+                                                                speed: 800,
+                                                                animateGradually: {
+                                                                    enabled: true,
+                                                                    delay: 150
+                                                                },
+                                                                dynamicAnimation: {
+                                                                    enabled: true,
+                                                                    speed: 350
+                                                                }
+                                                            }
                                                         },
                                                         xaxis: {
                                                             type: "datetime",
                                                             title: {
-                                                                text: "Time",
+                                                                text: "Time(KST)",
                                                             },
                                                         },
                                                         yaxis: {
+                                                            labels: {
+                                                                formatter: function (value) {
+                                                                    return value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                },
+                                                            },
                                                             title: {
                                                                 text: "Price(₩)",
+                                                            },
+                                                            tooltip: {
+                                                                enabled: true,
                                                             },
                                                         },
                                                     }}
