@@ -95,6 +95,32 @@ const BitcoinChart = () => {
         { data: series[3] },
     ]
 
+    const prices = [
+        { title: "Opening Price", data: data.ticker.opening_price },
+        { title: "High Price", data: data.ticker.high_price },
+        { title: "Low Price", data: data.ticker.low_price },
+        { title: "Trade Price", data: data.ticker.trade_price },
+        { title: "Prev Closing Price", data: data.ticker.prev_closing_price },
+        { title: "Change Price", data: data.ticker.change_price },
+        { title: "Change Rate", data: data.ticker.change_rate },
+        { title: "Signed Change Price", data: data.ticker.signed_change_price },
+        { title: "Signed Change Rate", data: data.ticker.signed_change_rate },
+        { title: "Trade Date", data: data.ticker.trade_date },
+        { title: "Trade Time", data: data.ticker.trade_time },
+        { title: "Trade Date Kst", data: data.ticker.trade_date_kst },
+        { title: "Trade Time Kst", data: data.ticker.trade_time_kst },
+        { title: "Trade Timestamp", data: data.ticker.trade_timestamp },
+        { title: "Acc Trade Price", data: data.ticker.acc_trade_price },
+        { title: "Acc Trade Price 24h", data: data.ticker.acc_trade_price_24h },
+        { title: "Acc Trade Volume", data: data.ticker.acc_trade_volume },
+        { title: "Acc Trade Volume 24h", data: data.ticker.acc_trade_volume_24h },
+        { title: "Highest 52 Week Price", data: data.ticker.highest_52_week_price },
+        { title: "Highest 52 Week Date", data: data.ticker.highest_52_week_date },
+        { title: "Lowest 52 Week Price", data: data.ticker.lowest_52_week_price },
+        { title: "Lowest 52 Week Date", data: data.ticker.lowest_52_week_date },
+        { title: "Timestamp", data: data.ticker.timestamp },
+    ]
+    console.log(data)
     if (loading) {
         return (
             <>
@@ -106,6 +132,18 @@ const BitcoinChart = () => {
         return (
             <>
                 <div className="content">
+                    <Row>
+                        <Col lg="12">
+                            {prices.map((item, index) => {
+                                return (
+                                    <div key={index}>
+                                        <h4 className="text-center">{item.title}</h4>
+                                        <h5 className="text-center">{item.data}</h5>
+                                    </div>
+                                );
+                            })}
+                        </Col>
+                    </Row>
                     <Row>
                         <Col lg="12">
                             <div className="flex justify-center">
