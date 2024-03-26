@@ -15,7 +15,7 @@ type dateTime = {
 }
 
 const BitcoinChart = () => {
-    const { data, loading } = useFetchData({ marketCoin: "KRW-BTC" });
+    const { data, loading } = useFetchData({ marketCoin: "KRW-BCH" });
     const [selectedTime, setSelectedTime] = useState<string>("hourlyData");
     const [dateActive, setDateActive] = useState<string>('1 Day');
 
@@ -184,7 +184,7 @@ const BitcoinChart = () => {
                                                                     series={[item.data]}
                                                                     style={{ width: '100%' }}
                                                                     type="candlestick"
-                                                                    height="500"
+                                                                    height="700"
                                                                 />
                                                             )}
                                                         </div>

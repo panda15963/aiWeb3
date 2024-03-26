@@ -15,9 +15,6 @@ export default function Index() {
         <EthereumChart />
       </div>
       <div className="col-12 pb-4 mx-auto">
-        <h1 className="text-center text-4xl font-bold mt-8 pb-4">
-          Choose your tool
-        </h1>
         <ToolsOnMain />
       </div>
       {/* Rendering the Footer component */}

@@ -1,45 +1,47 @@
 import React, { FC, useState, createElement } from "react";
 import BitcoinData from "./cryptocurrencyChart/BitcoinChart";
 import EthereumData from "./cryptocurrencyChart/EthereumChart";
-import SandboxData from "./cryptocurrencyChart/SandboxChart";
+import BitcoinCashData from "./cryptocurrencyChart/BitcoinCashChart";
 import { Spinner } from '@nextui-org/react';
 
-const CHART_COMPONENTS = {  
+const CHART_COMPONENTS = {
   Bitcoin: BitcoinData,
   Ethereum: EthereumData,
-  SandBox: SandboxData,
+  BitcoinCash: BitcoinCashData,
 };
 
-const Prices:FC = () => {
+const Prices: FC = () => {
   const [selectedCurrency, setSelectedCurrency] = useState<string>("Bitcoin");
-  const handleShowDisplay = (cryptocurrency: string) => {
-    setSelectedCurrency(cryptocurrency);
-  };
   return (
     <div className="container mx-auto p-4">
-      <section className="my-8">
-        <h2 className="text-xl font-bold mb-4 text-center">Prices</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <section className="my-8 border-1 border-black rounded-md overflow-hidden shadow-lg">
+        <h2 className="text-xl font-bold mb-4 text-center py-1">Prices</h2>
+        <hr className="border-black" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
           {Object.entries(CHART_COMPONENTS).map(([currency]) => (
             <button
-              onClick={() => handleShowDisplay(currency)}
-              className="bg-white p-4 rounded shadow-xl text-left"
+              onClick={() => setSelectedCurrency(currency)}
+              className="bg-white p-4 rounded shadow-xl text-center"
               key={currency}
             >
-              <p className="text-lg font-bold">{currency}</p>
-              <p className="text-gray-500">Price placeholder</p>
+              <h6 className="text-lg font-bold">
+                {currency}
+              </h6>
             </button>
           ))}
         </div>
       </section>
-      <section className="my-8">
-        <h2 className="text-xl font-bold mb-4 text-center">Charts</h2>
-        <div className="bg-white p-4 rounded shadow-xl">
+      <section className="my-8 border-1 border-black rounded-md overflow-hidden shadow-lg">
+        <h2 className="text-xl font-bold mb-4 text-center py-1">Charts</h2>
+        <hr className="border-black" />
+        <div className="bg-white p-4 shadow-xl">
           <h1 className="text-xl font-bold text-center py-2">{selectedCurrency}</h1>
           {selectedCurrency && CHART_COMPONENTS[selectedCurrency as keyof typeof CHART_COMPONENTS] ? (
             createElement(CHART_COMPONENTS[selectedCurrency as keyof typeof CHART_COMPONENTS])
           ) : (
-            <Spinner size="md" />
+            <div className="flex justify-center items-center h-64">
+              <Spinner />
+            </div>
           )}
         </div>
       </section>

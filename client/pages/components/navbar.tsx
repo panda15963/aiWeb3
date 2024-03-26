@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import {
-  Button,
-} from "@nextui-org/react";
 import Link from "next/link";
 import { GiArtificialIntelligence } from "react-icons/gi";
 import SignIn from "./signin";
@@ -58,21 +55,21 @@ const Navbar = () => {
           {/* Container for navigation links */}
           <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto">
             {/* Navigation link: Service */}
-            <Button
+            <Link
               href="/components/service"
-              className="px-2 py-2 lg:inline-flex lg:w-auto w-full px-3 py-2 rounded bg-sky-600 text-white font-bold items-center justify-center hover:bg-sky-900"
+              className="px-2 py-2 lg:inline-flex lg:w-auto w-full px-3 py-2 rounded bg-sky-600 text-white text-center font-bold items-center justify-center hover:bg-sky-900"
             >
               {/* Link text */}
               Service
-            </Button>
+            </Link>
             {/* Navigation link: Pricing */}
-            <Button
+            <Link
               href="/components/prices/pricing"
-              className="px-2 py-2 lg:inline-flex lg:w-auto w-full px-3 py-2 rounded bg-sky-600 text-white font-bold items-center justify-center hover:bg-sky-900"
+              className="px-2 py-2 lg:inline-flex lg:w-auto w-full px-3 py-2 rounded bg-sky-600 text-center text-white font-bold items-center justify-center hover:bg-sky-900"
             >
               {/* Link text */}
               Pricing
-            </Button>
+            </Link>
             <div className="px-2 py-2 lg:inline-flex lg:w-auto w-full">
               <SignIn />
             </div>

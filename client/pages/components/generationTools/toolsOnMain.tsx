@@ -16,7 +16,7 @@ const ToolsInformation: InformationTools[] = [
   {
     title: "Text-to-Image",
     description: "Input text, get an image what you want.",
-    image: "/images/hero-card-complete.jpeg",
+    image: process.env.PUBLIC_URL + "/images/txttoimg.png",
     tool_link: "/frontend-radio",
     price: "2 USD",
     price_link: "/components/prices/pricing",
@@ -40,10 +40,14 @@ const ToolsInformation: InformationTools[] = [
 ];
 const ToolsOnMain = () => {
   return (
-    <>
-      <div className="flex flex-row gap-4 justify-center bg-white shadow-2">
+    <div className="container mx-auto border-1 border-black rounded-md overflow-hidden shadow-lg">
+      <h6 className="text-center text-4xl font-bold p-4 ">
+        Choose your tool
+      </h6>
+      <hr className="border-black" />
+      <div className="flex flex-row gap-4 justify-center bg-white shadow-2 py-4">
         {ToolsInformation.map((tool, index) => (
-          <Card key={index} className="py-4">
+          <Card key={index} className="py-4 border-1 border-black rounded-md overflow-hidden shadow-lg">
             <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
               <Link
                 href={tool.tool_link}
@@ -69,7 +73,7 @@ const ToolsOnMain = () => {
           </Card>
         ))}
       </div>
-    </>
+    </div>
   );
 };
 export default ToolsOnMain;

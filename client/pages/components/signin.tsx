@@ -108,42 +108,33 @@ const SignIn = () => {
       <div className="flex flex-col justify-center">
         {user ? (
           <>
-            {loading === true ? (
-              <Dropdown backdrop="blur">
-                <DropdownTrigger>
-                  <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900">
-                    <img
-                      src="https://avatars.githubusercontent.com/u/37784886"
-                      className="h-10 w-10 rounded-full"
-                    />
-                    <p className="text-white font-bold tracking-wide px-2">
-                      {user.slice(0, 6)}...{user.slice(-6)}
-                    </p>
-                  </Button>
-                </DropdownTrigger>
-                <DropdownMenu>
-                  <DropdownItem
-                    href="/components/accounts"
-                    className="text-center py-2 block px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                  >
-                    <div className="font-bold">Account</div>
-                  </DropdownItem>
-                  <DropdownItem
-                    onClick={disconnect}
-                    className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                  >
-                    <div className="font-bold">Disconnect</div>
-                  </DropdownItem>
-                </DropdownMenu>
-              </Dropdown>
-            ) : (
-              <Button className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded hover: cursor-pointer justify-center item-center">
-                <div className="pl-2">
-                  <Spinner size="sm" className="mr-2" />
-                  Loading...
-                </div>
-              </Button>
-            )}
+            <Dropdown backdrop="blur">
+              <DropdownTrigger>
+                <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900">
+                  <img
+                    src="https://avatars.githubusercontent.com/u/37784886"
+                    className="h-10 w-10 rounded-full"
+                  />
+                  <p className="text-white font-bold tracking-wide px-2">
+                    {user.slice(0, 6)}...{user.slice(-6)}
+                  </p>
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu>
+                <DropdownItem
+                  href="/components/accounts"
+                  className="text-center py-2 block px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                >
+                  <div className="font-bold">Account</div>
+                </DropdownItem>
+                <DropdownItem
+                  onClick={disconnect}
+                  className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                >
+                  <div className="font-bold">Disconnect</div>
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
           </>
         ) : (
           <>

@@ -95,6 +95,18 @@ const BitcoinChart = () => {
         { data: series[3] },
     ]
 
+    const prices = [
+        { title: "Opening Price", data: data.ticker.opening_price },
+        { title: "High Price", data: data.ticker.high_price },
+        { title: "Low Price", data: data.ticker.low_price },
+        { title: "Trade Price", data: data.ticker.trade_price },
+        { title: "Prev Closing Price", data: data.ticker.prev_closing_price },
+        { title: "Highest Price(52 weeks)", data: data.ticker.highest_52_week_price },
+        { title: "Lowest Price(52 weeks)", data: data.ticker.lowest_52_week_price },
+        { title: "Acc Trade Volume(24h)", data: data.ticker.acc_trade_volume_24h },
+        { title: "Acc Trade Price(24h)", data: data.ticker.acc_trade_price_24h },
+    ]
+
     if (loading) {
         return (
             <>
@@ -108,69 +120,104 @@ const BitcoinChart = () => {
                 <div className="content">
                     <Row>
                         <Col lg="12">
-                            <div className="flex justify-center">
-                                {dateTime.map((item, index) => {
-                                    return (
-                                        <button className={`bg-white p-4 rounded shadow-lg text-center m-2 ${item.dates === dateActive ? `underline decoration-2 font-bold` : ''}`} key={index} onClick={item.functionsName}>{item.dates}</button>
-                                    );
-                                })}
+                            <div className="flex flex-wrap">
+                                <div className="w-full xl:w-8/12 mb-12 xl:mb-0 px-4">
+                                    <Row>
+                                        <Col lg="12">
+                                            <div className="flex justify-center">
+                                                {dateTime.map((item, index) => {
+                                                    return (
+                                                        <button className={`bg-white p-4 rounded shadow-lg text-center border-1 m-2 border-black ${item.dates === dateActive ? `underline decoration-2 font-bold` : ''}`} key={index} onClick={item.functionsName}>
+                                                            {item.dates}
+                                                        </button>
+                                                    );
+                                                })}
+                                            </div>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col lg="4">
+                                            <Card
+                                                shadow="lg"
+                                                className="border-1 border-black rounded-md shadow-lg mb-4">
+                                                <CardBody className="overflow-visible p-0 border-black">
+                                                    {displayGraphs.map((item, index) => (
+                                                        <div className="chart-area flex justify-between">
+                                                            {selectedTime === Object.keys(TIME_COMPONENT)[index] && (
+                                                                <ReactApexChart
+                                                                    options={{
+                                                                        chart: {
+                                                                            animations: {
+                                                                                enabled: true,
+                                                                                easing: 'easeout',
+                                                                                speed: 800,
+                                                                                animateGradually: {
+                                                                                    enabled: true,
+                                                                                    delay: 150
+                                                                                },
+                                                                                dynamicAnimation: {
+                                                                                    enabled: true,
+                                                                                    speed: 350
+                                                                                }
+                                                                            }
+                                                                        },
+                                                                        xaxis: {
+                                                                            type: "datetime",
+                                                                            title: {
+                                                                                text: "Time(KST)",
+                                                                            },
+                                                                        },
+                                                                        yaxis: {
+                                                                            labels: {
+                                                                                formatter: function (value) {
+                                                                                    return value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                                                                                },
+                                                                            },
+                                                                            title: {
+                                                                                text: "Price(₩)",
+                                                                            },
+                                                                            tooltip: {
+                                                                                enabled: true,
+                                                                            },
+                                                                        },
+                                                                    }}
+                                                                    series={[item.data]}
+                                                                    style={{ width: '100%' }}
+                                                                    type="candlestick"
+                                                                    height="500"
+                                                                />
+                                                            )}
+                                                        </div>
+                                                    ))}
+                                                </CardBody>
+                                            </Card>
+                                        </Col>
+                                    </Row>
+                                </div>
+                                <div className="w-full xl:w-4/12 px-4">
+                                    {prices.map((item, index) => {
+                                        return (
+                                            <Card
+                                                key={index}
+                                                shadow="lg"
+                                                className="border-1 border-black rounded-md shadow-lg mb-4"
+                                            >
+                                                <CardBody className="overflow-visible p-0 border-black">
+                                                    <div className="flex justify-between p-4">
+                                                        <h6 className="text-black-500 font-bold">{item.title}</h6>
+                                                        <h6 className={`
+                                                        ${item.title === "High Price" ? "text-red-500 font-bold" : "text-black-500 font-bold"}
+                                                        ${item.title === "Low Price" ? "text-blue-500 font-bold" : "text-black-500 font-bold"}
+                                                        `}>
+                                                            ₩ {item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                                        </h6>
+                                                    </div>
+                                                </CardBody>
+                                            </Card>
+                                        );
+                                    })}
+                                </div>
                             </div>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col lg="4">
-                            <Card>
-                                <CardBody>
-                                    {displayGraphs.map((item, index) => (
-                                        <div className="chart-area">
-                                            {selectedTime === Object.keys(TIME_COMPONENT)[index] && (
-                                                <ReactApexChart
-                                                    options={{
-                                                        chart: {
-                                                            animations: {
-                                                                enabled: true,
-                                                                easing: 'easeout',
-                                                                speed: 800,
-                                                                animateGradually: {
-                                                                    enabled: true,
-                                                                    delay: 150
-                                                                },
-                                                                dynamicAnimation: {
-                                                                    enabled: true,
-                                                                    speed: 350
-                                                                }
-                                                            }
-                                                        },
-                                                        xaxis: {
-                                                            type: "datetime",
-                                                            title: {
-                                                                text: "Time(KST)",
-                                                            },
-                                                        },
-                                                        yaxis: {
-                                                            labels: {
-                                                                formatter: function (value) {
-                                                                    return value.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-                                                                },
-                                                            },
-                                                            title: {
-                                                                text: "Price(₩)",
-                                                            },
-                                                            tooltip: {
-                                                                enabled: true,
-                                                            },
-                                                        },
-                                                    }}
-                                                    series={[item.data]}
-                                                    style={{ width: '100%' }}
-                                                    type="candlestick"
-                                                    height="350"
-                                                />
-                                            )}
-                                        </div>
-                                    ))}
-                                </CardBody>
-                            </Card>
                         </Col>
                     </Row>
                 </div>
