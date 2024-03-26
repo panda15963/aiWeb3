@@ -10,12 +10,12 @@ export default function Index() {
     <div className="bg-white">
       {/* Rendering the Navbar component */}
       <Navbar />
-      {/* Rendering the ToolsOnMain component */} 
-      <div className="col-12 pb-4 mx-auto">
-        <EthereumChart />
+      {/* Rendering the ToolsOnMain component */}
+      <div className="col-12 pb-4 mx-autov">
+        <ToolsOnMain />
       </div>
       <div className="col-12 pb-4 mx-auto">
-        <ToolsOnMain />
+        <EthereumChart />
       </div>
       {/* Rendering the Footer component */}
       <Footer />
