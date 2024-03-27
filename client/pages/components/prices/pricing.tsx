@@ -40,7 +40,7 @@ export const tiers: PricingTier[] = [
     name: "Text-to-Image",
     id: "0",
     href: "../generationTools/text_to_image",
-    price: { "1": "2 USD" },
+    price: { "1": "₩ 2,000" },
     discountPrice: { "1": "" },
     description: `Input text, get an image what you want.`,
     features: [
@@ -56,7 +56,7 @@ export const tiers: PricingTier[] = [
     name: "Image to Image",
     id: "1",
     href: "../generationTools/image_to_image",
-    price: { "1": "3.5 USD" },
+    price: { "1": "₩ 3,000" },
     discountPrice: { "1": "" },
     description: `Input image, get an image what you want.`,
     features: [
@@ -71,7 +71,7 @@ export const tiers: PricingTier[] = [
     name: "Multi-Promping",
     id: "2",
     href: "../generationTools/multi_promping",
-    price: { "1": "6 USD" },
+    price: { "1": "₩6,000" },
     discountPrice: { "1": "" },
     description: `Input multiple texts, get an image what you want.`,
     features: [
@@ -293,7 +293,7 @@ export default function PricingPage() {
                         disabled
                         className="bg-gray-100 text-black font-bold py-2 px-4 rounded justify-center item-center"
                       >
-                        Sign in to purchase a plan
+                        Sign in to generate pictures
                       </button>
                     )}
                     <ul

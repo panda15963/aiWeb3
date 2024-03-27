@@ -103,8 +103,8 @@ const BitcoinChart = () => {
         { title: "Prev Closing Price", data: data.ticker.prev_closing_price },
         { title: "Highest Price(52 weeks)", data: data.ticker.highest_52_week_price },
         { title: "Lowest Price(52 weeks)", data: data.ticker.lowest_52_week_price },
-        { title: "Acc Trade Volume(24h)", data: data.ticker.acc_trade_volume_24h },
         { title: "Acc Trade Price(24h)", data: data.ticker.acc_trade_price_24h },
+        { title: "Acc Trade Volume(24h)", data: data.ticker.acc_trade_volume_24h },
     ]
 
     if (loading) {
@@ -184,7 +184,7 @@ const BitcoinChart = () => {
                                                                     series={[item.data]}
                                                                     style={{ width: '100%' }}
                                                                     type="candlestick"
-                                                                    height="500"
+                                                                    height="700"
                                                                 />
                                                             )}
                                                         </div>
@@ -209,7 +209,8 @@ const BitcoinChart = () => {
                                                         ${item.title === "High Price" ? "text-red-500 font-bold" : "text-black-500 font-bold"}
                                                         ${item.title === "Low Price" ? "text-blue-500 font-bold" : "text-black-500 font-bold"}
                                                         `}>
-                                                            ₩ {item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                                            {item.title === "Acc Trade Volume(24h)" ? item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ETH" :
+                                                            "₩"+ item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                                         </h6>
                                                     </div>
                                                 </CardBody>

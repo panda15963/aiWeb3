@@ -1,6 +1,13 @@
 import React from "react";
-import { Card, CardBody, Row, Col } from "reactstrap";
+import Navbar from "../navbar";
+import Footer from "../Footer";
 const ImageToImage = () => {
-  return <div>ImageToImage</div>;
+  return (
+    <div className="bg-white">
+      <Navbar />
+      
+      <Footer />
+    </div>
+  );
 };
 export default ImageToImage;

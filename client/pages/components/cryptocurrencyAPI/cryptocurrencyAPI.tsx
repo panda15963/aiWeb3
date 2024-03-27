@@ -10,7 +10,7 @@ const CHART_COMPONENTS = {
   BitcoinCash: BitcoinCashData,
 };
 
-const Prices: FC = () => {
+const CryptocurrencyAPI : FC = () => {
   const [selectedCurrency, setSelectedCurrency] = useState<string>("Bitcoin");
   return (
     <div className="container mx-auto p-4">
@@ -49,4 +49,4 @@ const Prices: FC = () => {
   );
 };
 
-export default Prices;
+export default CryptocurrencyAPI;

@@ -2,7 +2,7 @@ import React from "react";
 import Navbar from "./components/navbar";
 import Footer from "./components/Footer";
 import ToolsOnMain from "./components/generationTools/toolsOnMain";
-import EthereumChart from "./components/cryptocurrencyAPI/cryptocurrencyAPI";
+import CryptocurrencyAPI from "./components/cryptocurrencyAPI/cryptocurrencyAPI";
 
 // Defining the main Index component
 export default function Index() {
@@ -11,11 +11,11 @@ export default function Index() {
       {/* Rendering the Navbar component */}
       <Navbar />
       {/* Rendering the ToolsOnMain component */}
-      <div className="col-12 pb-4 mx-autov">
+      <div className="col-12 mx-auto">
         <ToolsOnMain />
       </div>
-      <div className="col-12 pb-4 mx-auto">
-        <EthereumChart />
+      <div className="col-12 mx-auto">
+        <CryptocurrencyAPI />
       </div>
       {/* Rendering the Footer component */}
       <Footer />

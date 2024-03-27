@@ -108,9 +108,9 @@ const SignIn = () => {
       <div className="flex flex-col justify-center">
         {user ? (
           <>
-            <Dropdown backdrop="blur">
+            <Dropdown className="bg-white rounded shadow-md">
               <DropdownTrigger>
-                <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900">
+                <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900 rounded">
                   <img
                     src="https://avatars.githubusercontent.com/u/37784886"
                     className="h-10 w-10 rounded-full"
@@ -120,18 +120,18 @@ const SignIn = () => {
                   </p>
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu>
+              <DropdownMenu aria-label="Static Actions">
                 <DropdownItem
                   href="/components/accounts"
-                  className="text-center py-2 block px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className="text-center block mb-2 py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
                 >
-                  <div className="font-bold">Account</div>
+                  Account
                 </DropdownItem>
                 <DropdownItem
                   onClick={disconnect}
-                  className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                  className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
                 >
-                  <div className="font-bold">Disconnect</div>
+                  Disconnect
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>

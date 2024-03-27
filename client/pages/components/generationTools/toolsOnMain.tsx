@@ -2,6 +2,8 @@ import React from "react";
 import { Card, CardBody, Row, Col, CardHeader } from "reactstrap";
 import Link from "next/link";
 import Image from "next/image";
+import { useUser } from "../context/UserContext";
+
 export interface InformationTools {
   title: string;
   description: string;
@@ -18,30 +20,32 @@ const ToolsInformation: InformationTools[] = [
     title: "Text-to-Image",
     description: "Input text, get an image.",
     image: "/images/txttoimg.jpeg",
-    tool_link: "/frontend-radio",
-    price: "2 USD",
+    tool_link: "/components/generationTools/text_to_image",
+    price: "₩ 2,000",
     price_link: "/components/prices/pricing",
   },
   {
     title: "Image to Image",
     description: "Input image, get an image.",
     image: "/images/imgtoimg.png",
-    tool_link: "/backend-radio",
-    price: "3.5 USD",
+    tool_link: "/components/generationTools/image_to_image",
+    price: "₩ 3,000",
     price_link: "/components/prices/pricing",
   },
   {
     title: "Multi-Promping",
     description: "Input multi-texts, get an image.",
     image: "/images/multiPromping.jpeg",
-    tool_link: "/fullstack-radio",
-    price: "6 USD",
+    tool_link: "/components/generationTools/multi-promping",
+    price: "₩ 6,000",
     price_link: "/components/prices/pricing",
   },
 ];
 const ToolsOnMain = () => {
+  const { user } = useUser();
+
   return (
-    <div className="content mx-auto p-4">
+    <div className="container mx-auto p-4">
       <Row>
         <Col className="text-center">
           <div className="container mx-auto border-1 border-black rounded-md overflow-hidden shadow-lg">
@@ -49,38 +53,56 @@ const ToolsOnMain = () => {
               Choose your tool
             </h6>
             <hr className="border-black" />
-            <div className="flex flex-row gap-4 justify-center bg-white shadow-2 py-4">
+            <div className="flex flex-row gap-4 justify-center bg-white shadow-2 p-4">
               {ToolsInformation.map((tool, index) => (
-                <Card key={index} className="py-4 border-1 border-black rounded-md overflow-hidden shadow-lg">
-                  <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+                <Card key={index} className="border-1 border-black rounded-md overflow-hidden shadow-lg">
+                  <CardHeader>
                     <div>
-                      <Link
-                        href={tool.tool_link}
-                        className="text-tiny uppercase font-bold"
-                      >
-                        {tool.title}
-                      </Link>
-                    </div>
-                    <div>
-                      <Link href={tool.tool_link} className="text-default-500">
-                        <small className="text-default-500">{tool.description}</small>
-                      </Link>
-                    </div>
-                    <div>
-                      <Link href={tool.price_link} className="text-default-500">
-                        <small className="text-default-500">Price: {tool.price}</small>
-                      </Link>
+                      {user ? (
+                        <>
+                          <Link href={tool.tool_link}>
+                            <h1 className="uppercase font-bold">
+                              {tool.title}
+                            </h1>
+                            <h2 className="text-default-500">{tool.description}</h2>
+                          </Link>
+                          <Link href={tool.price_link} className="text-default-500">
+                            <h2 className="text-default-500">Price: {tool.price}</h2>
+                          </Link>
+                          <CardBody className="overflow-visible p-2">
+                            <Image
+                              alt="Card background"
+                              className="object-cover rounded-xl"
+                              src={tool.image}
+                              width={270}
+                              height={200}
+                            />
+                          </CardBody>
+                        </>
+                      ) : (
+                        <>
+                          <button onClick={() => alert("Sigin In first, please!")}>
+                            <h1 className="uppercase font-bold">
+                              {tool.title}
+                            </h1>
+                            <h2 className="text-default-500">{tool.description}</h2>
+                          </button>
+                          <Link href={tool.price_link} className="text-default-500">
+                            <h2 className="text-default-500">Price: {tool.price}</h2>
+                          </Link>
+                          <CardBody className="overflow-visible p-2">
+                            <Image
+                              alt="Card background"
+                              className="object-cover rounded-xl"
+                              src={tool.image}
+                              width={270}
+                              height={200}
+                            />
+                          </CardBody>
+                        </>
+                      )}
                     </div>
                   </CardHeader>
-                  <CardBody className="overflow-visible p-2">
-                    <Image
-                      alt="Card background"
-                      className="object-cover rounded-xl"
-                      src={tool.image}
-                      width={270}
-                      height={200}
-                    />
-                  </CardBody>
                 </Card>
               ))}
             </div>
