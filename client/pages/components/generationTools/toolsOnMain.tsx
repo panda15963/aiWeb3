@@ -9,7 +9,6 @@ export interface InformationTools {
   description: string;
   image: string;
   tool_link: string;
-  price: string;
   price_link: string;
 }
 export interface ToolsOnMainProps {
@@ -21,7 +20,6 @@ const ToolsInformation: InformationTools[] = [
     description: "Input text, get an image.",
     image: "/images/txttoimg.jpeg",
     tool_link: "/components/generationTools/text_to_image",
-    price: "₩ 2,000",
     price_link: "/components/prices/pricing",
   },
   {
@@ -29,7 +27,6 @@ const ToolsInformation: InformationTools[] = [
     description: "Input image, get an image.",
     image: "/images/imgtoimg.png",
     tool_link: "/components/generationTools/image_to_image",
-    price: "₩ 3,000",
     price_link: "/components/prices/pricing",
   },
   {
@@ -37,7 +34,6 @@ const ToolsInformation: InformationTools[] = [
     description: "Input multi-texts, get an image.",
     image: "/images/multiPromping.jpeg",
     tool_link: "/components/generationTools/multi-promping",
-    price: "₩ 6,000",
     price_link: "/components/prices/pricing",
   },
 ];
@@ -65,19 +61,16 @@ const ToolsOnMain = () => {
                               {tool.title}
                             </h1>
                             <h2 className="text-default-500">{tool.description}</h2>
+                            <CardBody className="overflow-visible p-2">
+                              <Image
+                                alt="Card background"
+                                className="object-cover rounded-xl"
+                                src={tool.image}
+                                width={270}
+                                height={200}
+                              />
+                            </CardBody>
                           </Link>
-                          <Link href={tool.price_link} className="text-default-500">
-                            <h2 className="text-default-500">Price: {tool.price}</h2>
-                          </Link>
-                          <CardBody className="overflow-visible p-2">
-                            <Image
-                              alt="Card background"
-                              className="object-cover rounded-xl"
-                              src={tool.image}
-                              width={270}
-                              height={200}
-                            />
-                          </CardBody>
                         </>
                       ) : (
                         <>
@@ -86,19 +79,16 @@ const ToolsOnMain = () => {
                               {tool.title}
                             </h1>
                             <h2 className="text-default-500">{tool.description}</h2>
+                            <CardBody className="overflow-visible p-2">
+                              <Image
+                                alt="Card background"
+                                className="object-cover rounded-xl"
+                                src={tool.image}
+                                width={270}
+                                height={200}
+                              />
+                            </CardBody>
                           </button>
-                          <Link href={tool.price_link} className="text-default-500">
-                            <h2 className="text-default-500">Price: {tool.price}</h2>
-                          </Link>
-                          <CardBody className="overflow-visible p-2">
-                            <Image
-                              alt="Card background"
-                              className="object-cover rounded-xl"
-                              src={tool.image}
-                              width={270}
-                              height={200}
-                            />
-                          </CardBody>
                         </>
                       )}
                     </div>

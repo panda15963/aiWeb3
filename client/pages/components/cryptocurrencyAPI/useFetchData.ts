@@ -6,6 +6,7 @@ import {
   ICandleReturnProps,
   ITickerProps,
 } from "node-upbit/lib/@types/quotation";
+import error from "next/error";
 
 interface IData {
   [x: string]: any;
@@ -100,5 +101,5 @@ export const useFetchData = ({ marketCoin }: IUseFetchDataProps) => {
     fetchData();
   }, [marketCoin]);
 
-  return { data, loading };
+  return { data, loading, error };
 };

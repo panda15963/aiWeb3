@@ -3,6 +3,7 @@ import { Card, CardBody, Row, Col } from "reactstrap";
 import { useFetchData } from "../useFetchData";
 import dynamic from "next/dynamic";
 import { Spinner } from '@nextui-org/react';
+import { usePrice } from "../../context/PriceContext";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
     ssr: false,
@@ -18,6 +19,8 @@ const BitcoinChart = () => {
     const { data, loading } = useFetchData({ marketCoin: "KRW-ETH" });
     const [selectedTime, setSelectedTime] = useState<string>("hourlyData");
     const [dateActive, setDateActive] = useState<string>('1 Day');
+    const { setEthereum } = usePrice();
+    setEthereum(data.ticker.opening_price)
 
     const TIME_COMPONENT = {
         hourlyData: "hourlyData",
