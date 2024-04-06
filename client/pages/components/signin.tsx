@@ -110,13 +110,9 @@ const SignIn = () => {
           <>
             <Dropdown className="bg-white rounded shadow-md">
               <DropdownTrigger>
-                <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900 rounded">
-                  <img
-                    src="https://avatars.githubusercontent.com/u/37784886"
-                    className="h-10 w-10 rounded-full"
-                  />
+                <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900 rounded">                  
                   <p className="text-white font-bold tracking-wide px-2">
-                    {user.slice(0, 6)}...{user.slice(-6)}
+                    Welcome, {user.slice(0, 6)}...{user.slice(-6)} User!
                   </p>
                 </Button>
               </DropdownTrigger>
