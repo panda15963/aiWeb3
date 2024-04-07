@@ -5,13 +5,13 @@ import {
   DropdownMenu,
   DropdownItem,
   Button,
-  Spinner,
 } from "@nextui-org/react";
 import CoinbaseWalletSDK from "@coinbase/wallet-sdk";
 import WalletConnect from "@walletconnect/web3-provider";
 import Web3Modal from "web3modal";
 import { ethers } from "ethers";
 import { useUser } from "./context/UserContext";
+import Link from "next/link";
 
 // Process.env variable is used for environment variables.
 // INFURA_ID is the Infura key for connecting to the Ethereum network.
@@ -110,7 +110,7 @@ const SignIn = () => {
           <>
             <Dropdown className="bg-white rounded shadow-md">
               <DropdownTrigger>
-                <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900 rounded">                  
+                <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900 rounded">
                   <p className="text-white font-bold tracking-wide px-2">
                     Welcome, {user.slice(0, 6)}...{user.slice(-6)} User!
                   </p>
@@ -118,10 +118,11 @@ const SignIn = () => {
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
                 <DropdownItem
-                  href="/components/accounts"
                   className="text-center block mb-2 py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
                 >
-                  Account
+                  <Link href="/components/accounts/accountsdashboard">
+                    Account
+                  </Link>
                 </DropdownItem>
                 <DropdownItem
                   onClick={disconnect}
