@@ -18,8 +18,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USER,
+  host: "localhost",
+  user: "root",
   password: process.env.DB_PWD,
   database: process.env.DB_NAME,
   port: process.env.DB_PORT,
