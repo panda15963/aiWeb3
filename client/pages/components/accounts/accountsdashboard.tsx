@@ -1,72 +1,72 @@
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
+import axios from 'axios';
 import Navbar from '../navbar';
 import Footer from '../Footer';
+async function getTransactions(address: string): Promise<any[]> {
+  const apiKey = '2QFYWXXW8E9JYG8Q64H5F1IF3NCM1KQNNC'; // Etherscan API 키
+  const url = `https://api.etherscan.io/api?module=account&action=txlist&address=${address}&startblock=0&endblock=99999999&sort=desc&apikey=${apiKey}`;
 
-const Balance = () => {
-  const [balance, setBalance] = useState<string | null>(null);
+  try {
+      const response = await axios.get(url);
+      const data = response.data;
+
+      if (data.status === '1') {
+          const transactions = data.result;
+          return transactions;
+      } else {
+          console.error('Failed to fetch transactions:', data.message);
+          return [];
+      }
+  } catch (error) {
+      console.error('Error fetching transactions:', error);
+      return [];
+  }
+}
+
+const TransactionAccountPage: React.FC = () => {
   const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const getAddressBalance = async () => {
-    // Check if MetaMask is installed
-    if (typeof window.ethereum !== 'undefined') {
-      try {
-        // Request account access if needed
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const address = await signer.getAddress();
-        const balanceWei = await provider.getBalance(address);
-        const balanceEth = ethers.utils.formatEther(balanceWei);
-        setBalance(balanceEth);
-        // Get transaction history
-        const response = await fetch(`https://api.etherscan.io/api?module=account&action=txlist&address=${address}&sort=desc`);
-        const data = await response.json();
-        if (data.status === '1') {
-          setTransactions(data.result);
-        } else {
-          console.error('Failed to fetch transaction history:', data.message);
-        }
-        console.log(response)
-        setLoading(false);
-      } catch (error) {
-        console.error('Error retrieving balance:', error);
-      }
-    } else {
-      console.error('MetaMask not detected');
+  const fetchTransactionHistory = async () => {
+    try {
+      // Get the user's Ethereum address from MetaMask
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const address = await signer.getAddress();
+      const transactions = await getTransactions(address);
+      console.log('transactions:', transactions);
+    } catch (error) {
+      console.error('Error fetching transaction history:', error);
     }
   };
 
   useEffect(() => {
-    getAddressBalance();
+    fetchTransactionHistory();
   }, []);
 
   return (
     <>
       <Navbar />
-      <div className="bg-gray-200 p-4 rounded-md">
-      <h2 className="text-lg font-semibold mb-2">Your Ethereum Balance</h2>
-      {loading ? <p>Loading balance...</p> : <p className="text-xl">{balance} ETH</p>}
-      <h2 className="text-lg font-semibold mt-4 mb-2">Transaction History</h2>
-      {loading ? (
-        <p>Loading transaction history...</p>
-      ) : (
-        <ul className="list-disc pl-6">
-          {transactions.map((tx: any, index: number) => (
-            <li key={index}>
-              <p>From: {tx.from}</p>
-              <p>To: {tx.to}</p>
-              <p>Amount: {ethers.utils.formatEther(tx.value)} ETH</p>
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+      <div className="container mx-auto px-4 py-8">
+        <h1 className="text-2xl font-bold mb-4">Transaction Account Page</h1>
+        {loading ? (
+          <p>Loading transaction history...</p>
+        ) : (
+          <div>
+            <h2 className="text-lg font-semibold mb-2">Transaction History</h2>
+            <ul className="list-disc pl-6">
+            </ul>
+          </div>
+        )}
+        {/* Add UI elements for transaction functionality */}
+        {/* For example: */}
+        {/* Input fields for recipient address and amount */}
+        {/* Button to send transaction */}
+      </div>
       <Footer />
     </>
   );
 };
 
-export default Balance;
+export default TransactionAccountPage;
