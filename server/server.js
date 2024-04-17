@@ -4,7 +4,9 @@ const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const app = express();
 const port = 8000;
-const request = require('request')
+const request = require('request');
+const axios = require('axios');
+
 try {
   var uuidv4 = require('uuid/v4');
 } catch (error) {
@@ -47,6 +49,19 @@ app.get('/api/accounts', (req, res) => {
     if (error) throw new Error(error)
     res.send(body)
   })
+});
+
+axios.post('https://sepolia.infura.io/v3/355b801e336a45769c2285c8946e9c05', {
+  jsonrpc: '2.0',
+  method: 'eth_getBlockByHash',
+  params: ['0x2daf42a166a7c75579b37e5996558095d53282a6a23c761b094ea1add78ff681', false],
+  id: 1,
+})
+.then(response => {
+  console.log(response.data);
+})
+.catch(error => {
+  console.error(error);
 });
 
 app.listen(port, () => {
