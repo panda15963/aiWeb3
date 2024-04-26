@@ -1,47 +1,60 @@
-import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
+import React, { FC, useEffect, useState } from 'react';
 import Navbar from '../navbar';
 import Footer from '../Footer';
+import { useUser } from '../context/UserContext';
+import { ethers } from 'ethers';
 
-const TransactionAccountPage: React.FC = () => {
-  const [transactions, setTransactions] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-
-  const fetchTransactionHistory = async () => {
-    try {
-      // Get the user's Ethereum address from MetaMask
+const TransactionAccountPage: FC = () => {
+  const [balance, setBalance] = useState<number>(0);
+  const [transaction, setTransaction] = useState<boolean>(false);
+  const { user } = useUser();
+  const getBalance = async () => {
+    if (user) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      
-    } catch (error) {
-      console.error('Error fetching transaction history:', error);
+      const balance = await provider.getBalance(user);
+      setBalance(Number(ethers.utils.formatEther(balance)));
+      console.log(balance);
     }
-  };
-
+  }
+  const getTransaction = async () => {
+    if (user) {
+      const transactions_List = ["0xcf73411dde5a855ca2e37d16578a25bdc3cd7717cf5d43b55ad1770488f9c6ca"];
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const transaction = await provider.getTransaction(transactions_List[0]);
+      const from = transaction.from;
+      const to = transaction.to;
+      const value = Number(ethers.utils.formatEther(transaction.value));
+      console.log(from, to, value);
+    }
+  }
   useEffect(() => {
-    fetchTransactionHistory();
-  }, []);
+    getBalance();
+    getTransaction();
+  }, [user]);
+
 
   return (
     <>
       <Navbar />
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-4">Transaction Account Page</h1>
-        {loading ? (
-          <p>Loading transaction history...</p>
-        ) : (
-          <div>
-            <h2 className="text-lg font-semibold mb-2">Transaction History</h2>
-            <ul className="list-disc pl-6">
-            </ul>
+      {user ? (
+        <>
+          <div className="container mx-auto">
+            <section className="my-8 border-1 border-black rounded-md overflow-hidden shadow-lg text-center px-5">
+              <h1 className="text-3xl font-bold">Account</h1>
+              <div className="flex flex-col items-center justify-center">
+                <p className="text-xl">Address: {user}</p>
+                <p className="text-xl">Balance: {balance}</p>
+                <p className="text-xl">Transaction: {transaction ? "Success" : "Fail"}</p>
+              </div>
+            </section>
           </div>
-        )}
-        {/* Add UI elements for transaction functionality */}
-        {/* For example: */}
-        {/* Input fields for recipient address and amount */}
-        {/* Button to send transaction */}
-      </div>
+        </>
+      ) : (
+        <div className="flex flex-col items-center justify-center h-screen">
+          <h1 className="text-3xl font-bold">You are not connected to a wallet</h1>
+          <p className="text-xl">Please connect to a wallet to view your account</p>
+        </div>
+      )}
       <Footer />
     </>
   );
