@@ -41,13 +41,13 @@ const ToolsOnMain = () => {
   const { user } = useUser();
 
   return (
-    <div className="container mx-auto p-4">
+    <div className="m-8">
       <Row>
         <Col className="text-center">
-          <div className="container mx-auto border-1 border-black rounded-md overflow-hidden shadow-lg">
-            <h6 className="text-center text-4xl font-bold p-4 ">
+          <div className="my-4 border-1 border-black rounded-md overflow-hidden shadow-lg">
+            <h1 className="text-center text-4xl font-bold p-4 ">
               Choose your tool
-            </h6>
+            </h1>
             <hr className="border-black" />
             <div className="flex flex-row gap-4 justify-center bg-white shadow-2 p-4">
               {ToolsInformation.map((tool, index) => (

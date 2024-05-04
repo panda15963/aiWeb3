@@ -13,8 +13,6 @@ export default function Index() {
       {/* Rendering the ToolsOnMain component */}
       <div className="col-12 mx-auto">
         <ToolsOnMain />
-      </div>
-      <div className="col-12 mx-auto">
         <CryptocurrencyAPI />
       </div>
       {/* Rendering the Footer component */}
