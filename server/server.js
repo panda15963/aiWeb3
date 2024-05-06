@@ -18,6 +18,18 @@ const db = mysql.createConnection({
   port: process.env.DB_PORT,
 });
 
+db.connect((err) => {
+  if (err) {
+    throw err;
+  }
+  console.log('Connected to database');
+});
+
+app.post('/api/transactions', (req, res) => {
+  const user = res.locals.user;
+  console.log(user);
+});
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

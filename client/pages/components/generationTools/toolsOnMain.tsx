@@ -37,7 +37,7 @@ const ToolsInformation: InformationTools[] = [
     price_link: "/components/prices/pricing",
   },
 ];
-const ToolsOnMain = () => {
+export default function ToolsOnMain() {
   const { user } = useUser();
 
   return (
@@ -102,4 +102,3 @@ const ToolsOnMain = () => {
     </div>
   );
 };
-export default ToolsOnMain;

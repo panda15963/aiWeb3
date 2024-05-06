@@ -15,7 +15,7 @@ import Link from "next/link";
 * SignIn component displays a button to connect a user's wallet.
 * It also shows the user's address and a disconnect button when the user is connected.
 */
-const SignIn = () => {
+export default function SignIn() {
   const [provider, setProvider] = useState<ethers.providers.Web3Provider | undefined>(
     undefined
   );
@@ -62,52 +62,51 @@ const SignIn = () => {
         });
       }
     } catch (error: any) {
-    setLoading(false);
-    alert(error.message);
-  }
+      setLoading(false);
+      alert(error.message);
+    }
+  };
+  return (
+    <>
+      <div className="flex flex-col justify-center">
+        {user ? (
+          <>
+            <Dropdown className="bg-white rounded shadow-md">
+              <DropdownTrigger>
+                <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900 rounded">
+                  <p className="text-white font-bold tracking-wide px-2">
+                    Welcome, {user.slice(0, 6)}...{user.slice(-6)} User!
+                  </p>
+                </Button>
+              </DropdownTrigger>
+              <DropdownMenu aria-label="Static Actions">
+                <DropdownItem
+                  className="text-center block mb-2 py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
+                >
+                  <Link href="/components/accounts/accountsdashboard">
+                    Account
+                  </Link>
+                </DropdownItem>
+                <DropdownItem
+                  onClick={disconnect}
+                  className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
+                >
+                  Disconnect
+                </DropdownItem>
+              </DropdownMenu>
+            </Dropdown>
+          </>
+        ) : (
+          <>
+            <Button
+              className="bg-sky-600 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded hover: cursor-pointer justify-center item-center"
+              onClick={connect}
+            >
+              Connect
+            </Button>
+          </>
+        )}
+      </div>
+    </>
+  );
 };
-return (
-  <>
-    <div className="flex flex-col justify-center">
-      {user ? (
-        <>
-          <Dropdown className="bg-white rounded shadow-md">
-            <DropdownTrigger>
-              <Button className="relative flex items-center justify-center bg-sky-600 hover:bg-sky-900 rounded">
-                <p className="text-white font-bold tracking-wide px-2">
-                  Welcome, {user.slice(0, 6)}...{user.slice(-6)} User!
-                </p>
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu aria-label="Static Actions">
-              <DropdownItem
-                className="text-center block mb-2 py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
-              >
-                <Link href="/components/accounts/accountsdashboard">
-                  Account
-                </Link>
-              </DropdownItem>
-              <DropdownItem
-                onClick={disconnect}
-                className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
-              >
-                Disconnect
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        </>
-      ) : (
-        <>
-          <Button
-            className="bg-sky-600 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded hover: cursor-pointer justify-center item-center"
-            onClick={connect}
-          >
-            Connect
-          </Button>
-        </>
-      )}
-    </div>
-  </>
-);
-};
-export default SignIn;

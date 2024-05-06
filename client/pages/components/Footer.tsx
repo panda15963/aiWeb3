@@ -1,6 +1,6 @@
 import React, { createElement } from "react";
 // Footer component
-const Footer = () => {
+export default function Footer () {
   return createElement(
     "div",
     {
@@ -22,6 +22,3 @@ const Footer = () => {
     )
   );
 };
-
-// Export the Footer component for use in other files
-export default Footer;

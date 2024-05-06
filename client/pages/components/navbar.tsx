@@ -4,7 +4,7 @@ import { GiArtificialIntelligence } from "react-icons/gi";
 import SignIn from "./signin";
 
 // Navbar component for the GenAImage website
-const Navbar = () => {
+export default function Navbar () {
   // Initialize the state variable 'active' to false
   const [active, setActive] = useState(false);
 
@@ -71,6 +71,3 @@ const Navbar = () => {
     </>
   );
 };
-
-// Export the Navbar component
-export default Navbar;

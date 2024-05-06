@@ -5,13 +5,13 @@ import BitcoinCashData from "./cryptocurrencyChart/BitcoinCashChart";
 import { Spinner } from '@nextui-org/react';
 
 const CHART_COMPONENTS = {
-  Bitcoin: BitcoinData,
   Ethereum: EthereumData,
+  Bitcoin: BitcoinData,  
   BitcoinCash: BitcoinCashData,
 };
 
-const CryptocurrencyAPI: FC = () => {
-  const [selectedCurrency, setSelectedCurrency] = useState<string>("Bitcoin");
+export default function CryptocurrencyAPI(){
+  const [selectedCurrency, setSelectedCurrency] = useState<string>("Ethereum");
   return (
     <div className="m-8 border-1 border-black rounded-md overflow-hidden shadow-lg">
       <h1 className="text-xl font-bold mb-4 text-center my-4 text-4xl">Stocks & Charts</h1>
@@ -46,5 +46,3 @@ const CryptocurrencyAPI: FC = () => {
     </div>
   );
 };
-
-export default CryptocurrencyAPI;

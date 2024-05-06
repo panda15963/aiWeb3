@@ -1,59 +1,65 @@
-import React, { FC, ChangeEvent, useEffect, useState } from 'react';
-import * as XLSX from 'xlsx';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { ethers } from 'ethers';
+import Papa from 'papaparse';
+import axios from 'axios';
 import Navbar from '../navbar';
 import Footer from '../Footer';
 import { useUser } from '../context/UserContext';
-import { ethers } from 'ethers';
+import { usePrice } from '../context/PriceContext';
 
-const TransactionAccountPage: FC = () => {
+export default function TransactionAccountPage(){
+  const [csvData, setCSVData] = useState<any[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [balance, setBalance] = useState<number>(0);
-  const [transactions_List, setTransactions_List] = useState<any[]>([]);
+  const [KRWbalance, setKRWbalance] = useState<number>(0);
   const { user } = useUser();
-
-  const readExcel = async (file: File) => {
-    const fileReader = new FileReader();
-    fileReader.readAsArrayBuffer(file);
-    fileReader.onload = (e: ProgressEvent<FileReader>) => {
-      if (!e.target) return;
-      const bufferArray = e.target.result;
-      const fileInformation = XLSX.read(bufferArray, {
-        type: 'buffer',
-        cellText: false,
-        cellDates: true,
-      });
-      const sheetName = fileInformation.SheetNames[0];
-      const rawData = fileInformation.Sheets[sheetName];
-      const data = XLSX.utils.sheet_to_json(rawData);
-      setTransactions_List(data);
-    };
-  };
+  const { EthereumPrice } = usePrice();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    const file = e.target.files[0];
-    readExcel(file);
+    const file = e.target.files && e.target.files[0];
+    const fileName = file?.name.split('.csv')[0].split('export-')[1];
+
+    if (fileName === user) {
+      Papa.parse(file as File, { // Add type assertion to ensure file is not null
+        complete: (result: any) => {
+          setCSVData(result.data);
+          setErrorMessage('');
+        },
+        error: (error: any) => {
+          setCSVData([]);
+          setErrorMessage('Error parsing CSV file.');
+          console.error('Error parsing CSV file:', error);
+        }
+      });
+    } else {
+      setCSVData([]);
+      setErrorMessage('File name does not match your address.');
+    }
   };
+
+  const handleSubmit = () => {
+    if (csvData.length > 0 && user) {
+      axios.post('/api/transactions', { data: csvData, user })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((error) => {
+          console.error('Error submitting transactions:', error);
+        });
+    } else if (csvData.length === 0) {
+      console.error('No data to submit.');
+    } else {
+      console.error('User not authenticated.');
+    }
+  }
 
   const getBalance = async () => {
     if (user) {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const balance = await provider.getBalance(user);
+      const KRWbalance = EthereumPrice ? Number(ethers.utils.formatEther(balance)) * (EthereumPrice as number) : 0;
+      setKRWbalance(KRWbalance);
       setBalance(Number(ethers.utils.formatEther(balance)));
-    } else {
-      // Display an error message within the component
-      // instead of using the alert function
-      console.error('Please sign in at Metamask first!');
-    }
-  }
-
-  const getTransaction = async (transactionId: string) => {
-    if (user) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const transaction = await provider.getTransaction(transactionId);
-      const from = transaction.from;
-      const to = transaction.to;
-      const value = Number(ethers.utils.formatEther(transaction.value));
-      // Do something with the transaction data
     } else {
       console.error('Please sign in at Metamask first!');
     }
@@ -62,13 +68,6 @@ const TransactionAccountPage: FC = () => {
   useEffect(() => {
     getBalance();
   }, [user]);
-  
-  useEffect(() => {
-    if (transactions_List.length > 0) {
-      const transactionId = transactions_List[0].transactionId;
-      getTransaction(transactionId);
-    }
-  }, [transactions_List, getTransaction]);
 
   return (
     <>
@@ -78,7 +77,7 @@ const TransactionAccountPage: FC = () => {
           <div className="m-8 border-1 border-black rounded-md overflow-hidden shadow-lg">
             <h1 className="text-3xl font-bold text-center m-4">Account</h1>
             <hr className="border-black" />
-            <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 text-center'>
+            <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6 text-center'>
               <div className="border-1 border-black rounded-md overflow-hidden p-2">
                 <h2 className="text-2xl font-bold">Address</h2>
                 <p className="text-xl">{user.slice(0, 10)}...{user.slice(-10)}</p>
@@ -89,18 +88,51 @@ const TransactionAccountPage: FC = () => {
               </div>
               <div className="border-1 border-black rounded-md overflow-hidden p-2">
                 <h2 className="text-2xl font-bold">Balance</h2>
-                <p className="text-xl">{balance} ETH</p>
+                <p className="text-xl">{balance} ETH(\{KRWbalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")})</p>
               </div>
             </section>
             <section className='p-4 text-center"'>
               <div className="border-1 border-black rounded-md overflow-hidden text-center m-2">
                 <h2 className="text-2xl font-bold">Transaction</h2>
                 <div className="flex flex-col items-center justify-center my-4">
-                  <input type='file' onChange={readExcel} />                  
+                  <input
+                    type="file"
+                    accept="all"
+                    onChange={handleFileChange}
+                    className="border-1 border-black rounded-md p-2"
+                  />
+                  {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
+                  {csvData.length > 0 && (
+                    <>
+                      <h3 className="text-lg font-semibold mb-2">CSV Data:</h3>
+                      <div className='border rounded-lg overflow-hidden'>
+                        <table className="border-collapse w-full">
+                          <tbody>
+                            {csvData.map((col, i) => (
+                              col.some((item: string) => item.trim() !== '') && (
+                                <tr key={i} className={`border border-black ${i === 0 ? 'bg-black text-white font-bold' : ''}`}>
+                                  {col.map((cell: string, j: number) => (
+                                    [5, 7].includes(j) && ( // Include only columns 0, 5, and 7
+                                      <td key={`${i}-${j}`} className="border border-black p-2">
+                                        {j === 5 || j === 7 ? (cell.length > 10 ? `${cell.slice(0, 10)}...` : cell) : cell}
+                                      </td>
+                                    )
+                                  ))}
+                                  <td key={`${i}-4`} className="border border-black p-2">{col[4]}</td> {/* DateTime */}
+                                  <td key={`${i}-9`} className="border border-black p-2">{col[9]}</td> {/* Value */}
+                                  <td key={`${i}-10`} className="border border-black p-2">{col[10]}</td> {/* Txn Fee */}
+                                </tr>
+                              )))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </>
+                  )}
                 </div>
-                <button type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 my-2">
-                  Submit
-                </button>
+                <button
+                  onClick={handleSubmit}
+                  className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded hover: cursor-pointer justify-center item-center m-4"
+                > Submit </button>
               </div>
             </section>
           </div >
@@ -115,5 +147,3 @@ const TransactionAccountPage: FC = () => {
     </>
   );
 };
-
-export default TransactionAccountPage;

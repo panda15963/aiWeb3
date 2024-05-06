@@ -51,6 +51,7 @@
     "next-auth": "^4.24.6",
     "node-fetch": "^3.3.2",
     "node-upbit": "^1.2.0",
+    "papaparse": "^5.4.1",
     "postcss-cli": "^11.0.0",
     "react": "^18",
     "react-apexcharts": "^1.4.1",
@@ -74,6 +75,7 @@
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/papaparse": "^5.3.14",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.4.18",
