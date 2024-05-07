@@ -7,7 +7,7 @@ import Footer from '../Footer';
 import { useUser } from '../context/UserContext';
 import { usePrice } from '../context/PriceContext';
 
-export default function TransactionAccountPage(){
+export default function TransactionAccountPage() {
   const [csvData, setCSVData] = useState<any[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [balance, setBalance] = useState<number>(0);
@@ -18,50 +18,56 @@ export default function TransactionAccountPage(){
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     const fileName = file?.name.split('.csv')[0].split('export-')[1];
-
-    if (fileName === user) {
-      Papa.parse(file as File, { // Add type assertion to ensure file is not null
-        complete: (result: any) => {
-          setCSVData(result.data);
-          setErrorMessage('');
-        },
-        error: (error: any) => {
-          setCSVData([]);
-          setErrorMessage('Error parsing CSV file.');
-          console.error('Error parsing CSV file:', error);
-        }
-      });
-    } else {
+    if (!file) return; // add null check
+    if (fileName !== user) {
       setCSVData([]);
       setErrorMessage('File name does not match your address.');
+      return;
     }
+    Papa.parse(file as File, { // Add type assertion to ensure file is not null
+      complete: (result: any) => {
+        setCSVData(result.data);
+        setErrorMessage('');
+      },
+      error: (error: any) => {
+        setCSVData([]);
+        setErrorMessage('Error parsing CSV file.');
+        console.error('Error parsing CSV file:', error);
+      }
+    });
   };
 
-  const handleSubmit = () => {
-    if (csvData.length > 0 && user) {
-      axios.post('/api/transactions', { data: csvData, user })
-        .then((res) => {
-          console.log(res.data);
-        })
-        .catch((error) => {
-          console.error('Error submitting transactions:', error);
-        });
-    } else if (csvData.length === 0) {
-      console.error('No data to submit.');
-    } else {
-      console.error('User not authenticated.');
-    }
+  const handleSubmit = async () => {
+    /*if (!csvData.length || !user) {
+      if (!csvData.length) {
+        console.error('No data to submit.');
+      } else {
+        console.error('User not authenticated.');
+      }
+      return;
+    } try {
+      console.log(csvData)
+    } catch (error) {
+      console.error('Error submitting transactions:', error);
+      setErrorMessage('Error submitting transactions. Please try again later.');
+    }*/
   }
 
   const getBalance = async () => {
-    if (user) {
+    if (!user) {
+      console.error('Please sign in at Metamask first!');
+      return;
+    }
+    try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const balance = await provider.getBalance(user);
-      const KRWbalance = EthereumPrice ? Number(ethers.utils.formatEther(balance)) * (EthereumPrice as number) : 0;
-      setKRWbalance(KRWbalance);
-      setBalance(Number(ethers.utils.formatEther(balance)));
-    } else {
-      console.error('Please sign in at Metamask first!');
+      const ETHBalance = Number(ethers.utils.formatEther(balance));
+      const KRWBalance = EthereumPrice? ETHBalance * (EthereumPrice as number) : 0;
+      setKRWbalance(KRWBalance);
+      setBalance(ETHBalance);
+      console.log(csvData)
+    } catch (error) {
+      console.error('Error getting balance:', error);
     }
   }
 
@@ -88,7 +94,7 @@ export default function TransactionAccountPage(){
               </div>
               <div className="border-1 border-black rounded-md overflow-hidden p-2">
                 <h2 className="text-2xl font-bold">Balance</h2>
-                <p className="text-xl">{balance} ETH(\{KRWbalance.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")})</p>
+                <p className="text-xl">{Math.round(balance * 1000) / 1000} ETH(\{Math.round(KRWbalance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")})</p>
               </div>
             </section>
             <section className='p-4 text-center"'>
