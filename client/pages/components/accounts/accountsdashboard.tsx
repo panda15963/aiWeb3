@@ -35,22 +35,35 @@ export default function TransactionAccountPage() {
         console.error('Error parsing CSV file:', error);
       }
     });
+    axios.post('http://localhost:8000/api/user', { user: user})
+    .then(response => {
+      console.log(response);
+    })
+    .catch(error => {
+      console.error('Error submitting user:', error);
+      setErrorMessage('Error submitting user. Please try again later.');
+    });
   };
 
   const handleSubmit = async () => {
-    /*if (!csvData.length || !user) {
-      if (!csvData.length) {
-        console.error('No data to submit.');
-      } else {
-        console.error('User not authenticated.');
+    console.log(csvData)
+    for(let i = 1; i < csvData.length; i++) {
+      const txn = {
+        txnHash: csvData[i][0],
+        from: csvData[i][5],
+        to: csvData[i][7],
+        value: csvData[i][9],
+        fee: csvData[i][10],
+        date: csvData[i][4],
+      };
+      try {
+        const response = await axios.post('http://localhost:8000/api/transactions', txn);
+        console.log(response);
+      } catch (error) {
+        console.error('Error submitting transactions:', error);
+        setErrorMessage('Error submitting transactions. Please try again later.');
       }
-      return;
-    } try {
-      console.log(csvData)
-    } catch (error) {
-      console.error('Error submitting transactions:', error);
-      setErrorMessage('Error submitting transactions. Please try again later.');
-    }*/
+    }
   }
 
   const getBalance = async () => {
@@ -62,10 +75,9 @@ export default function TransactionAccountPage() {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const balance = await provider.getBalance(user);
       const ETHBalance = Number(ethers.utils.formatEther(balance));
-      const KRWBalance = EthereumPrice? ETHBalance * (EthereumPrice as number) : 0;
+      const KRWBalance = EthereumPrice ? ETHBalance * (EthereumPrice as number) : 0;
       setKRWbalance(KRWBalance);
       setBalance(ETHBalance);
-      console.log(csvData)
     } catch (error) {
       console.error('Error getting balance:', error);
     }

@@ -18,8 +18,20 @@ const db = mysql.createConnection({
   port: 3306,
 });
 
-app.get('/api/transactions', (req, res) => {
-  res.send('Hello World!');
+db.connect((err) => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("Connected to the database");
+  }
+});
+
+app.post('/api/users', (req, res) => {
+  console.log(req.body, res.body);
+});
+
+app.post('/api/transactions', (req, res) => {
+  console.log(req.body, res.body);
 });
 
 app.listen(port, () => {
