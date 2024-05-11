@@ -11,27 +11,32 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 const db = mysql.createConnection({
-  host: "127.0.0.1",
-  user: "root",
-  password: "Panda7521ok!",
-  database: "Ethereum",
-  port: 3306,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PWD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
 });
 
 db.connect((err) => {
   if (err) {
     console.log(err);
   } else {
-    console.log("Connected to the database");
+    console.log("Database connected");
   }
 });
 
-app.post('/api/users', (req, res) => {
-  console.log(req.body, res.body);
-});
-
 app.post('/api/transactions', (req, res) => {
-  console.log(req.body, res.body);
+  const {userID, dateTime, fromID, toID, price, tokenFee} = req.body;
+  const sql = `INSERT INTO transactions VALUES ('${userID}', '${txnHash}', '${fromID}', '${toID}', '${price}', '${tokenFee}', '${dateTime}')`;
+  db.query(sql, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Transaction added");
+      res.send(result);
+    }
+  });
 });
 
 app.listen(port, () => {

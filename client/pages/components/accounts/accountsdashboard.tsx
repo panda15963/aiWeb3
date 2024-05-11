@@ -35,18 +35,9 @@ export default function TransactionAccountPage() {
         console.error('Error parsing CSV file:', error);
       }
     });
-    axios.post('http://localhost:8000/api/user', { user: user})
-    .then(response => {
-      console.log(response);
-    })
-    .catch(error => {
-      console.error('Error submitting user:', error);
-      setErrorMessage('Error submitting user. Please try again later.');
-    });
   };
 
   const handleSubmit = async () => {
-    console.log(csvData)
     for(let i = 1; i < csvData.length; i++) {
       const txn = {
         txnHash: csvData[i][0],
@@ -56,8 +47,17 @@ export default function TransactionAccountPage() {
         fee: csvData[i][10],
         date: csvData[i][4],
       };
+      console.log(txn)
       try {
-        const response = await axios.post('http://localhost:8000/api/transactions', txn);
+        const response = await axios.post('http://localhost:8000/api/transactions', {
+          user: user,
+          txnHash: txn.txnHash,
+          from: txn.from,
+          to: txn.to,
+          value: txn.value,
+          fee: txn.fee,
+          date: txn.date,        
+        });
         console.log(response);
       } catch (error) {
         console.error('Error submitting transactions:', error);

@@ -1,35 +1,23 @@
 # aiWeb3
 
-## Git add, remove, and merge branches
+## Git clone
 
 ``` bash
-git checkout -b branchName  # Create a new branch and switch to it
-git branch # List all local branches
-git branch -r # List all remote branches
-git branch -a # List all remote branches
-git branch -d branchName # Delete a branch
-git branch -m branchName newBranchName # Rename a branch
-git branch --merged # List all branches that have been merged into the current branch
-git branch --no-merged # List all branches that have not been merged into the current branch
-git merge branchName # Merge a branch into the current branch
-git merge --abort # Abort a merge
-git merge --continue # Continue a merge after resolving conflicts
-git merge --no-ff branchName # Merge a branch into the current branch without a fast-forward merge
-git merge --squash branchName # Merge a branch into the current branch and squash all of the commits into a single commit
-git merge --strategy=ours branchName # Merge a branch into the current branch using the "ours" merge strategy
-git merge --strategy-option=theirs branchName # Merge a branch into the current branch using the "theirs" merge strategy
-git add . # Add all files to the staging area
-git add -u # Add modified and deleted files to the staging area
-git add -A # Add all files to the staging area
-git commit -m "commit message" # Commit all files in the staging area
-git commit -am "commit message" # Commit all files in the staging area
-git commit --amend # Amend the last commit
-git commit --no-verify # Commit all files in the staging area without running the pre-commit hooks
-git commit --no-verify -m "commit message" # Commit all files in the staging area without running the pre-commit hooks
-git reset --soft HEAD~1 # Undo the last commit and move the changes back to the staging area
-git reset --mixed HEAD~1 # Undo the last commit and move the changes back to the working directory
-git reset --hard HEAD~1 # Undo the last commit and remove the changes from the working directory
+git clone <address> 
 ```
+
+## Install dependencies
+
+``` bash
+npm install
+
+## Run Doctor Script
+    
+``` bash
+    npm run doctor
+```
+
+## Troubleshooting
 
 ## Solution
 
@@ -37,4 +25,10 @@ git reset --hard HEAD~1 # Undo the last commit and remove the changes from the w
 
 ``` bash
 npx next telemetry disable
+```
+
+### 2. Error: connect ECONNREFUSED 0.0.0.0:3306 at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1602:16)
+
+``` bash
+netstat -lntup | grep 3306
 ```
