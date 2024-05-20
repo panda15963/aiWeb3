@@ -15,7 +15,7 @@ const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PWD,
   database: process.env.DB_NAME,
-  port: process.env.DB_PORT
+  port: port
 });
 
 db.connect((err) => {
@@ -27,16 +27,7 @@ db.connect((err) => {
 });
 
 app.post('/api/transactions', (req, res) => {
-  const {userID, dateTime, fromID, toID, price, tokenFee} = req.body;
-  const sql = `INSERT INTO transactions VALUES ('${userID}', '${txnHash}', '${fromID}', '${toID}', '${price}', '${tokenFee}', '${dateTime}')`;
-  db.query(sql, (err, result) => {
-    if (err) {
-      console.log(err);
-    } else {
-      console.log("Transaction added");
-      res.send(result);
-    }
-  });
+  console.log(req.body, res.body);
 });
 
 app.listen(port, () => {
