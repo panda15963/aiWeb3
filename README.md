@@ -17,6 +17,22 @@ npm install
     npm run doctor
 ```
 
+## Mysql script for Database
+
+``` sql
+CREATE TABLE transactions(                               
+  id INT NOT NULL AUTO_INCREMENT,
+  txnHash INT NOT NULL,
+  userID INT NOT NULL,
+  dateTime TIMESTAMP NOT NULL,
+  fromID VARCHAR(200) NOT NULL,
+  toID VARCHAR(200) NOT NULL,
+  price FLOAT NOT NULL,
+  tokenFee FLOAT NOT NULL,
+  PRIMARY KEY (id)
+);
+```
+
 ## Troubleshooting
 
 ## Solution
