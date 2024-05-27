@@ -38,31 +38,29 @@ export default function TransactionAccountPage() {
   };
 
   const handleSubmit = async () => {
-    for(let i = 1; i < csvData.length; i++) {
-      const txn = {
-        txnHash: csvData[i][0],
-        from: csvData[i][5],
-        to: csvData[i][7],
-        value: csvData[i][9],
-        fee: csvData[i][10],
-        date: csvData[i][4],
-      };
-      console.log(txn)
-      try {
-        const response = await axios.post('http://localhost:8000/api/transactions', {
-          user: user,
-          txnHash: txn.txnHash,
-          from: txn.from,
-          to: txn.to,
-          value: txn.value,
-          fee: txn.fee,
-          date: txn.date,        
-        });
-        console.log(response);
-      } catch (error) {
-        console.error('Error submitting transactions:', error);
-        setErrorMessage('Error submitting transactions. Please try again later.');
-      }
+    const txn = {
+      txnHash: csvData[1][0],
+      from: csvData[1][5],
+      to: csvData[1][7],
+      value: csvData[1][9],
+      fee: csvData[1][10],
+      date: csvData[1][4],
+    };
+    console.log(txn)
+    try {
+      const response = await axios.post('http://localhost:8000/api/transactions', {
+        user: user,
+        txnHash: txn.txnHash,
+        from: txn.from,
+        to: txn.to,
+        value: txn.value,
+        fee: txn.fee,
+        date: txn.date,        
+      });
+      console.log(response);
+    } catch (error) {
+      console.error('Error submitting transactions:', error);
+      setErrorMessage('Error submitting transactions. Please try again later.');
     }
   }
 
