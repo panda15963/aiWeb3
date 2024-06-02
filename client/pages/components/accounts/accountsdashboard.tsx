@@ -19,14 +19,19 @@ export default function TransactionAccountPage() {
     const file = e.target.files && e.target.files[0];
     const fileName = file?.name.split('.csv')[0].split('export-')[1];
     if (!file) return; // add null check
-    if (fileName !== user) {
+    if (fileName!== user) {
       setCSVData([]);
       setErrorMessage('File name does not match your address.');
       return;
     }
-    Papa.parse(file as File, { // Add type assertion to ensure file is not null
+    Papa.parse(file as File, {
       complete: (result: any) => {
-        setCSVData(result.data);
+        setCSVData(result.data.map((row: string[]) => {
+          const value = row[9];
+          const match = value.match(/^\d+(\.\d+)?/);
+          const decimalValue = match ? match[0] : '';
+          return [...row.slice(0, 9), decimalValue, row[10]];
+        }));
         setErrorMessage('');
       },
       error: (error: any) => {
@@ -38,30 +43,30 @@ export default function TransactionAccountPage() {
   };
 
   const handleSubmit = async () => {
-    const txn = {
-      txnHash: csvData[1][0],
-      from: csvData[1][5],
-      to: csvData[1][7],
-      value: csvData[1][9],
-      fee: csvData[1][10],
-      date: csvData[1][4],
-    };
-    console.log(txn)
-    try {
-      const response = await axios.post('http://localhost:8000/api/transactions', {
-        user: user,
-        txnHash: txn.txnHash,
-        from: txn.from,
-        to: txn.to,
-        value: txn.value,
-        fee: txn.fee,
-        date: txn.date,        
-      });
-      console.log(response);
-    } catch (error) {
-      console.error('Error submitting transactions:', error);
-      setErrorMessage('Error submitting transactions. Please try again later.');
-    }
+    for (let i = 1; i < csvData.length; i++) {
+      const txn = {
+        txnHash: csvData[i][0],
+        from: csvData[i][5],
+        to: csvData[i][7],
+        value: csvData[i][9],
+        fee: csvData[i][10],
+        date: csvData[i][4],
+      };
+      console.log(txn);
+      try {
+        await axios.post('http://localhost:8000/api/transactions', {
+          txnHash: txn.txnHash,
+          from: txn.from,
+          to: txn.to,
+          value: txn.value,
+          fee: txn.fee,
+          date: txn.date,
+        });
+      } catch (error) {
+        console.error('Error submitting transactions:', error);
+        setErrorMessage('Error submitting transactions. Please try again later.');
+      }
+    }    
   }
 
   const getBalance = async () => {
@@ -128,15 +133,15 @@ export default function TransactionAccountPage() {
                               col.some((item: string) => item.trim() !== '') && (
                                 <tr key={i} className={`border border-black ${i === 0 ? 'bg-black text-white font-bold' : ''}`}>
                                   {col.map((cell: string, j: number) => (
-                                    [5, 7].includes(j) && ( // Include only columns 0, 5, and 7
+                                    [5, 7].includes(j) && (
                                       <td key={`${i}-${j}`} className="border border-black p-2">
                                         {j === 5 || j === 7 ? (cell.length > 10 ? `${cell.slice(0, 10)}...` : cell) : cell}
                                       </td>
                                     )
                                   ))}
-                                  <td key={`${i}-4`} className="border border-black p-2">{col[4]}</td> {/* DateTime */}
-                                  <td key={`${i}-9`} className="border border-black p-2">{col[9]}</td> {/* Value */}
-                                  <td key={`${i}-10`} className="border border-black p-2">{col[10]}</td> {/* Txn Fee */}
+                                  <td key={`${i}-4`} className="border border-black p-2">{col[4]}</td>{/* DateTime */}
+                                  <td key={`${i}-9`} className="border border-black p-2">{col[9]}</td>{/* Value */}
+                                  <td key={`${i}-10`} className="border border-black p-2">{col[10]}</td>{/* Txn Fee */}
                                 </tr>
                               )))}
                           </tbody>

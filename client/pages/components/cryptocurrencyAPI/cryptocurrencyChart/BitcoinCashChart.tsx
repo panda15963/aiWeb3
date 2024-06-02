@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardBody, Row, Col } from "reactstrap";
 import { useFetchData } from "../useFetchData";
 import dynamic from "next/dynamic";
@@ -20,7 +20,12 @@ const BitcoinCashChart = () => {
     const [selectedTime, setSelectedTime] = useState<string>("hourlyData");
     const [dateActive, setDateActive] = useState<string>('1 Day');
     const { setBitcoinCash } = usePrice();
-    setBitcoinCash(data.ticker.opening_price);
+
+    useEffect(() => {
+        if (data) {
+            setBitcoinCash(data.ticker.opening_price);
+        }
+    }, [data, setBitcoinCash]);
 
     const TIME_COMPONENT = {
         hourlyData: "hourlyData",
@@ -144,7 +149,7 @@ const BitcoinCashChart = () => {
                                                 shadow="lg"
                                                 className="border-1 border-black rounded-md shadow-lg mb-4">
                                                 <CardBody className="overflow-visible p-0 border-black">
-                                                    {displayGraphs.map((item, index) => (
+                                                {displayGraphs.map((item, index) => (
                                                         <div className="chart-area flex justify-between">
                                                             {selectedTime === Object.keys(TIME_COMPONENT)[index] && (
                                                                 <ReactApexChart
@@ -184,7 +189,7 @@ const BitcoinCashChart = () => {
                                                                             },
                                                                         },
                                                                     }}
-                                                                    series={[item.data]}
+                                                                    series={item.data ? [item.data] : []} // Add a check to make sure that the `data` property exists before trying to access it
                                                                     style={{ width: '100%' }}
                                                                     type="candlestick"
                                                                     height="700"

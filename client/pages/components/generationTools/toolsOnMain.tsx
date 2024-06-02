@@ -66,8 +66,10 @@ export default function ToolsOnMain() {
                                 alt="Card background"
                                 className="object-cover rounded-xl"
                                 src={tool.image}
-                                width={270}
-                                height={200}
+                                style={{ width: 300, height: 300, objectFit: 'cover' }}
+                                width={300}
+                                height={300}
+                                priority
                               />
                             </CardBody>
                           </Link>
@@ -84,8 +86,10 @@ export default function ToolsOnMain() {
                                 alt="Card background"
                                 className="object-cover rounded-xl"
                                 src={tool.image}
-                                width={270}
-                                height={200}
+                                style={{ width: 300, height: 300, objectFit: 'cover' }}
+                                width={300}
+                                height={300}
+                                priority
                               />
                             </CardBody>
                           </button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardBody, Row, Col } from "reactstrap";
 import { useFetchData } from "../useFetchData";
 import dynamic from "next/dynamic";
@@ -15,12 +15,17 @@ type dateTime = {
     active: boolean;
 }
 
-const BitcoinChart = () => {
+const EthereumChart = () => {
     const { data, loading } = useFetchData({ marketCoin: "KRW-ETH" });
     const [selectedTime, setSelectedTime] = useState<string>("hourlyData");
     const [dateActive, setDateActive] = useState<string>('1 Day');
     const { setEthereum } = usePrice();
-    setEthereum(data.ticker.opening_price)
+
+    useEffect(() => {
+        if (data) {
+            setEthereum(data.ticker.opening_price);
+        }
+    }, [data, setEthereum]);
 
     const TIME_COMPONENT = {
         hourlyData: "hourlyData",
@@ -145,7 +150,7 @@ const BitcoinChart = () => {
                                                 className="border-1 border-black rounded-md shadow-lg mb-4">
                                                 <CardBody className="overflow-visible p-0 border-black">
                                                     {displayGraphs.map((item, index) => (
-                                                        <div className="chart-area flex justify-between">
+                                                        <div key={index} className="chart-area flex justify-between">
                                                             {selectedTime === Object.keys(TIME_COMPONENT)[index] && (
                                                                 <ReactApexChart
                                                                     options={{
@@ -184,7 +189,7 @@ const BitcoinChart = () => {
                                                                             },
                                                                         },
                                                                     }}
-                                                                    series={[item.data]}
+                                                                    series={item.data ? [item.data] : []}
                                                                     style={{ width: '100%' }}
                                                                     type="candlestick"
                                                                     height="700"
@@ -213,7 +218,7 @@ const BitcoinChart = () => {
                                                         ${item.title === "Low Price" ? "text-blue-500 font-bold" : "text-black-500 font-bold"}
                                                         `}>
                                                             {item.title === "Acc Trade Volume(24h)" ? item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " ETH" :
-                                                            "₩"+ item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                                                "₩" + item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                                         </h6>
                                                     </div>
                                                 </CardBody>
@@ -230,4 +235,4 @@ const BitcoinChart = () => {
     }
 };
 
-export default BitcoinChart;
+export default EthereumChart;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Card, CardBody, Row, Col } from "reactstrap";
 import { useFetchData } from "../useFetchData";
 import dynamic from "next/dynamic";
@@ -20,7 +20,12 @@ const BitcoinChart = () => {
     const [selectedTime, setSelectedTime] = useState<string>("hourlyData");
     const [dateActive, setDateActive] = useState<string>('1 Day');
     const { setBitcoin } = usePrice();
-    setBitcoin(data.ticker.opening_price)
+
+    useEffect(() => {
+        if (data) {
+            setBitcoin(data.ticker.opening_price);
+        }
+    }, [data, setBitcoin]);
 
     const TIME_COMPONENT = {
         hourlyData: "hourlyData",
@@ -31,7 +36,7 @@ const BitcoinChart = () => {
 
     const series = [
         {
-            data: data.minutesDataforDay.map((item) => {
+            data: data?.minutesDataforDay.map((item) => {
                 return {
                     x: new Date(item.timestamp + 1000 * 60 * 60 * 9),
                     y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
@@ -39,7 +44,7 @@ const BitcoinChart = () => {
             }),
         },
         {
-            data: data.minutesDataforWeek.map((item) => {
+            data: data?.minutesDataforWeek.map((item) => {
                 return {
                     x: new Date(item.timestamp + 1000 * 60 * 60 * 9),
                     y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
@@ -47,7 +52,7 @@ const BitcoinChart = () => {
             }),
         },
         {
-            data: data.dayData.map((item) => {
+            data: data?.dayData.map((item) => {
                 return {
                     x: new Date(item.timestamp + 1000 * 60 * 60 * 9),
                     y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
@@ -55,7 +60,7 @@ const BitcoinChart = () => {
             }),
         },
         {
-            data: data.weekData.map((item): any => {
+            data: data?.weekData.map((item): any => {
                 return {
                     x: new Date(item.timestamp + 1000 * 60 * 60 * 9),
                     y: [item.opening_price, item.high_price, item.low_price, item.trade_price],
@@ -99,15 +104,15 @@ const BitcoinChart = () => {
     ]
 
     const prices = [
-        { title: "Opening Price", data: data.ticker.opening_price },
-        { title: "High Price", data: data.ticker.high_price },
-        { title: "Low Price", data: data.ticker.low_price },
-        { title: "Trade Price", data: data.ticker.trade_price },
-        { title: "Prev Closing Price", data: data.ticker.prev_closing_price },
-        { title: "Highest Price(52 weeks)", data: data.ticker.highest_52_week_price },
-        { title: "Lowest Price(52 weeks)", data: data.ticker.lowest_52_week_price },
-        { title: "Acc Trade Price(24h)", data: data.ticker.acc_trade_price_24h },
-        { title: "Acc Trade Volume(24h)", data: data.ticker.acc_trade_volume_24h },
+        { title: "Opening Price", data: data?.ticker.opening_price },
+        { title: "High Price", data: data?.ticker.high_price },
+        { title: "Low Price", data: data?.ticker.low_price },
+        { title: "Trade Price", data: data?.ticker.trade_price },
+        { title: "Prev Closing Price", data: data?.ticker.prev_closing_price },
+        { title: "Highest Price(52 weeks)", data: data?.ticker.highest_52_week_price },
+        { title: "Lowest Price(52 weeks)", data: data?.ticker.lowest_52_week_price },
+        { title: "Acc Trade Price(24h)", data: data?.ticker.acc_trade_price_24h },
+        { title: "Acc Trade Volume(24h)", data: data?.ticker.acc_trade_volume_24h },
     ]
 
     if (loading) {
@@ -184,7 +189,7 @@ const BitcoinChart = () => {
                                                                             },
                                                                         },
                                                                     }}
-                                                                    series={[item.data]}
+                                                                    series={item.data ? [item.data] : []} // Add a check to make sure that the `data` property exists before trying to access it
                                                                     style={{ width: '100%' }}
                                                                     type="candlestick"
                                                                     height="700"
@@ -213,7 +218,7 @@ const BitcoinChart = () => {
                                                         ${item.title === "Low Price" ? "text-blue-500 font-bold" : "text-black-500 font-bold"}
                                                         `}>
                                                             {item.title === "Acc Trade Volume(24h)" ? item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " BTC" :
-                                                            "₩"+ item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                                                "₩" + item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                                         </h6>
                                                     </div>
                                                 </CardBody>

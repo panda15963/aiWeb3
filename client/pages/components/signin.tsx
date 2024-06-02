@@ -81,6 +81,7 @@ export default function SignIn() {
               </DropdownTrigger>
               <DropdownMenu aria-label="Static Actions">
                 <DropdownItem
+                  textValue="Account"
                   className="text-center block mb-2 py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
                 >
                   <Link href="/components/accounts/accountsdashboard">
@@ -88,6 +89,7 @@ export default function SignIn() {
                   </Link>
                 </DropdownItem>
                 <DropdownItem
+                  textValue="Disconnect"
                   onClick={disconnect}
                   className="text-center block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 rounded font-bold"
                 >
