@@ -27,10 +27,7 @@ export default function TransactionAccountPage() {
     Papa.parse(file as File, {
       complete: (result: any) => {
         setCSVData(result.data.map((row: string[]) => {
-          const value = row[9];
-          const match = value.match(/^\d+(\.\d+)?/);
-          const decimalValue = match ? match[0] : '';
-          return [...row.slice(0, 9), decimalValue, row[10]];
+          return row.map((cell: string) => cell.trim());
         }));
         setErrorMessage('');
       },
@@ -133,15 +130,12 @@ export default function TransactionAccountPage() {
                               col.some((item: string) => item.trim() !== '') && (
                                 <tr key={i} className={`border border-black ${i === 0 ? 'bg-black text-white font-bold' : ''}`}>
                                   {col.map((cell: string, j: number) => (
-                                    [5, 7].includes(j) && (
+                                    [4, 5, 7, 9, 10].includes(j) && (
                                       <td key={`${i}-${j}`} className="border border-black p-2">
                                         {j === 5 || j === 7 ? (cell.length > 10 ? `${cell.slice(0, 10)}...` : cell) : cell}
                                       </td>
                                     )
                                   ))}
-                                  <td key={`${i}-4`} className="border border-black p-2">{col[4]}</td>{/* DateTime */}
-                                  <td key={`${i}-9`} className="border border-black p-2">{col[9]}</td>{/* Value */}
-                                  <td key={`${i}-10`} className="border border-black p-2">{col[10]}</td>{/* Txn Fee */}
                                 </tr>
                               )))}
                           </tbody>
