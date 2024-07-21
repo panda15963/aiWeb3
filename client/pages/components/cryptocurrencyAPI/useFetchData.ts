@@ -2,17 +2,17 @@ import { useState, useEffect } from "react";
 import { QuoationService } from "node-upbit";
 import {
   ICandleDayReturnProps,
-  ICandleWeekReturnProps, 
-  ICandleReturnProps,
+  ICandleWeekReturnProps,
   ITickerProps,
+  ICandlesMonthReturnProps,
 } from "node-upbit/lib/@types/quotation";
 import error from "next/error";
 
 interface IData {
   [x: string]: any;
-  minutesDataforDay: ICandleReturnProps[];
-  minutesDataforWeek: ICandleReturnProps[];
-  dayData: ICandleDayReturnProps[];
+  minutesDataforDay: ICandleDayReturnProps[];
+  minutesDataforWeek: ICandleWeekReturnProps[]; // Update the type to ICandleWeekReturnProps[]
+  dayData: ICandlesMonthReturnProps[]; // Update the type to ICandleMonthReturnProps[]
   weekData: ICandleWeekReturnProps[];
   ticker: ITickerProps;
 }
@@ -61,26 +61,25 @@ export const useFetchData = ({ marketCoin }: IUseFetchDataProps) => {
 
   const fetchData = async () => {
     try {
-      const dayCandles = await quoationService.getMinutesCandles({
-        minutes: '60',
+      const dayCandles = await quoationService.getDayCandles({
         marketCoin,
-        count: 25,
+        count:
+          new Date().getDay() === 0 ? 8 : new Date().getDay() === 6 ? 9 : 7,
       });
 
-      const weekCandles = await quoationService.getMinutesCandles({
-        minutes: '60',
+      const weekCandles = await quoationService.getWeekCandles({
         marketCoin,
-        count: 169,
+        count: new Date().getDay() === 0 ? 8 : new Date().getDay(),
       });
 
-      const monthCandles = await quoationService.getDayCandles({
+      const monthCandles = await quoationService.getMonthCandles({
         marketCoin,
-        count: 32,
+        count: new Date().getMonth(),
       });
 
-      const yearCandles = await quoationService.getWeekCandles({
+      const yearCandles = await quoationService.getMonthCandles({
         marketCoin,
-        count: 53,
+        count: new Date().getFullYear(),
       });
 
       setData({
