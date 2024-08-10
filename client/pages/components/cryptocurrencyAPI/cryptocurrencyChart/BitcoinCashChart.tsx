@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardBody, Row, Col } from "reactstrap";
 import { useFetchData } from "../useFetchData";
 import dynamic from "next/dynamic";
@@ -104,10 +104,10 @@ const BitcoinCashChart = () => {
     ]
 
     const prices = [
+        { title: "Trade Price", data: data.ticker.trade_price },
         { title: "Opening Price", data: data.ticker.opening_price },
         { title: "High Price", data: data.ticker.high_price },
         { title: "Low Price", data: data.ticker.low_price },
-        { title: "Trade Price", data: data.ticker.trade_price },
         { title: "Prev Closing Price", data: data.ticker.prev_closing_price },
         { title: "Highest Price(52 weeks)", data: data.ticker.highest_52_week_price },
         { title: "Lowest Price(52 weeks)", data: data.ticker.lowest_52_week_price },
@@ -149,7 +149,7 @@ const BitcoinCashChart = () => {
                                                 shadow="lg"
                                                 className="border-1 border-black rounded-md shadow-lg mb-4">
                                                 <CardBody className="overflow-visible p-0 border-black">
-                                                {displayGraphs.map((item, index) => (
+                                                    {displayGraphs.map((item, index) => (
                                                         <div className="chart-area flex justify-between">
                                                             {selectedTime === Object.keys(TIME_COMPONENT)[index] && (
                                                                 <ReactApexChart
@@ -218,7 +218,7 @@ const BitcoinCashChart = () => {
                                                         ${item.title === "Low Price" ? "text-blue-500 font-bold" : "text-black-500 font-bold"}
                                                         `}>
                                                             {item.title === "Acc Trade Volume(24h)" ? item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " BCH" :
-                                                            "₩"+ item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                                                                "₩" + item.data.toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                                                         </h6>
                                                     </div>
                                                 </CardBody>

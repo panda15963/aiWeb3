@@ -1,4 +1,4 @@
-import React, { FC, useState, createElement } from "react";
+import { useState, createElement } from "react";
 import BitcoinData from "./cryptocurrencyChart/BitcoinChart";
 import EthereumData from "./cryptocurrencyChart/EthereumChart";
 import BitcoinCashData from "./cryptocurrencyChart/BitcoinCashChart";
@@ -6,11 +6,11 @@ import { Spinner } from '@nextui-org/react';
 
 const CHART_COMPONENTS = {
   Ethereum: EthereumData,
-  Bitcoin: BitcoinData,  
+  Bitcoin: BitcoinData,
   BitcoinCash: BitcoinCashData,
 };
 
-export default function CryptocurrencyAPI(){
+export default function CryptocurrencyAPI() {
   const [selectedCurrency, setSelectedCurrency] = useState<string>("Ethereum");
   return (
     <div className="m-8 border-1 border-black rounded-md overflow-hidden shadow-lg">

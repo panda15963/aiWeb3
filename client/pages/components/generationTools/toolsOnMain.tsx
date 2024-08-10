@@ -16,27 +16,28 @@ export interface ToolsOnMainProps {
 }
 const ToolsInformation: InformationTools[] = [
   {
-    title: "Text-to-Image",
-    description: "Input text, get an image.",
-    image: "/images/txt2img.png",
-    tool_link: "/components/generationTools/text_to_image",
+    title: "Generate Images",
+    description: "Input texts, get images.",
+    image: "/images/stable-image-generate.gif",
+    tool_link: "/components/generationTools/GenerateImages",
     price_link: "/components/prices/pricing",
   },
   {
-    title: "Image to Image",
-    description: "Input image, get an image.",
-    image: "/images/img2img.jpg",
-    tool_link: "/components/generationTools/image_to_image",
+    title: "Upscale Images",
+    description: "Input image, get upscaled images.",
+    image: "/images/stable-image-upscale.gif",
+    tool_link: "/components/generationTools/UpscaleImages",
     price_link: "/components/prices/pricing",
   },
   {
-    title: "Multi-Promping",
-    description: "Input multi-texts, get an image.",
-    image: "/images/multiPromping.jpg",
-    tool_link: "/components/generationTools/multi-promping",
+    title: "Sketch Images",
+    description: "Input images, get sketchs.",
+    image: "/images/stable-image-control.gif",
+    tool_link: "/components/generationTools/SketchImages",
     price_link: "/components/prices/pricing",
   },
 ];
+
 export default function ToolsOnMain() {
   const { user } = useUser();
 
@@ -66,8 +67,8 @@ export default function ToolsOnMain() {
                                 alt="Card background"
                                 className="object-cover rounded-xl"
                                 src={tool.image}
-                                style={{ width: 300, height: 300, objectFit: 'cover' }}
-                                width={300}
+                                style={{ width: 500, height: 300, objectFit: 'cover' }}
+                                width={500}
                                 height={300}
                                 priority
                               />
@@ -86,8 +87,8 @@ export default function ToolsOnMain() {
                                 alt="Card background"
                                 className="object-cover rounded-xl"
                                 src={tool.image}
-                                style={{ width: 300, height: 300, objectFit: 'cover' }}
-                                width={300}
+                                style={{ width: 500, height: 300, objectFit: 'cover' }}
+                                width={500}
                                 height={300}
                                 priority
                               />

@@ -1,10 +1,10 @@
-const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const express = require("express");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const mysql = require("mysql");
 const app = express();
 const port = 8000;
-require('dotenv').config();
+require("dotenv").config();
 
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -23,44 +23,44 @@ const pool = mysql.createPool({
 
 pool.getConnection((err, connection) => {
   if (err) {
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      console.error('Database connection was closed.');
+    if (err.code === "PROTOCOL_CONNECTION_LOST") {
+      console.error("Database connection was closed.");
     }
-    if (err.code === 'ER_CON_COUNT_ERROR') {
-      console.error('Database has too many connections.');
+    if (err.code === "ER_CON_COUNT_ERROR") {
+      console.error("Database has too many connections.");
     }
-    if (err.code === 'ECONNREFUSED') {
-      console.error('Database connection was refused.');
+    if (err.code === "ECONNREFUSED") {
+      console.error("Database connection was refused.");
     }
-    if (err.code === 'ETIMEDOUT') {
-      console.error('Connection attempt timed out.');
+    if (err.code === "ETIMEDOUT") {
+      console.error("Connection attempt timed out.");
     }
-    return
+    return;
   }
 
   if (connection) connection.release();
-  console.log('Connected to the database');
+  console.log("Connected to the database");
 
   return;
 });
 
-pool.on('acquire', function (connection) {
-  console.log('Connection %d acquired', connection.threadId);
+pool.on("acquire", function (connection) {
+  console.log("Connection %d acquired", connection.threadId);
 });
 
-pool.on('connection', function (connection) {
-  connection.query('SET SESSION auto_increment_increment=1')
+pool.on("connection", function (connection) {
+  connection.query("SET SESSION auto_increment_increment=1");
 });
 
-pool.on('enqueue', function () {
-  console.log('Waiting for available connection slot');
+pool.on("enqueue", function () {
+  console.log("Waiting for available connection slot");
 });
 
-pool.on('release', function (connection) {
-  console.log('Connection %d released', connection.threadId);
+pool.on("release", function (connection) {
+  console.log("Connection %d released", connection.threadId);
 });
 
-app.post('/api/transactions', (req, res) => {
+app.post("/api/transactions", (req, res) => {
   console.log(req.body, res.body);
 });
 

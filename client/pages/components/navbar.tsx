@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { GiArtificialIntelligence } from "react-icons/gi";
 import SignIn from "./signin";
 
 // Navbar component for the GenAImage website
-export default function Navbar () {
+export default function Navbar() {
   // Initialize the state variable 'active' to false
   const [active, setActive] = useState(false);
 
@@ -48,9 +48,8 @@ export default function Navbar () {
         </button>
         {/* Navigation links container */}
         <div
-          className={`${
-            active ? "" : "hidden"
-          }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
+          className={`${active ? "" : "hidden"
+            }   w-full lg:inline-flex lg:flex-grow lg:w-auto`}
         >
           {/* Container for navigation links */}
           <div className="lg:inline-flex lg:flex-row lg:ml-auto lg:w-auto w-full lg:items-center items-start flex flex-col lg:h-auto">

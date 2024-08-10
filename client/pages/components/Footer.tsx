@@ -1,6 +1,6 @@
-import React, { createElement } from "react";
+import { createElement } from "react";
 // Footer component
-export default function Footer () {
+export default function Footer() {
   return createElement(
     "div",
     {
