@@ -71,20 +71,9 @@ const SketchImages: FC = () => {
         }));
       } else {
         const errorText = await response.text();
-        let parsedErrorMessage = errorText;
-
-        try {
-          const errorJson = JSON.parse(errorText);
-          if (errorJson.errors && errorJson.errors.length > 0) {
-            parsedErrorMessage = errorJson.errors[0];
-          }
-        } catch (e) {
-          console.error('Failed to parse error message:', e);
-        }
-
         setState(prevState => ({
           ...prevState,
-          errorMessage: `${response.status} - ${parsedErrorMessage}`,
+          errorMessage: `${response.status} - ${errorText}`,
           loading: false,
         }));
       }
@@ -105,6 +94,15 @@ const SketchImages: FC = () => {
     }));
   };
 
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setState(prevState => ({
+        ...prevState,
+        sketchImage: e.target.files ? e.target.files[0] : null,
+      }));
+    }
+  };
+
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (e.key === 'Enter') {
       generateImage();
@@ -117,9 +115,6 @@ const SketchImages: FC = () => {
       <div className="flex flex-col items-center min-h-screen bg-gray-100 text-gray-900 p-4">
         <div className="w-full max-w-2xl p-6 bg-white rounded-md shadow-md">
           <h1 className="text-xl font-bold mb-4 text-center">Sketch to Image</h1>
-          <p className="text-center text-red-500 mb-4">
-            Note: This application is only available in English.
-          </p>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Prompt</label>
             <p className="text-xs text-gray-500 mb-2">Describe the content of the image you want to generate.</p>
@@ -132,12 +127,31 @@ const SketchImages: FC = () => {
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
             />
           </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium text-gray-700">Upload Sketch Image</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              title="Upload your sketch image"
+            />
+            {state.sketchImage && (
+              <div className="mt-4">
+                <p className="text-xs text-gray-500">Preview:</p>
+                <img
+                  src={URL.createObjectURL(state.sketchImage)}
+                  alt="Sketch Preview"
+                  className="w-full max-h-60 object-contain border border-gray-300 rounded-md"
+                />
+              </div>
+            )}
+          </div>
           <button
             onClick={generateImage}
             disabled={state.loading}
-            className={`w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white shadow-sm ${
-              state.loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-            }`}
+            className={`w-full py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white shadow-sm ${state.loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
+              }`}
           >
             {state.loading ? 'Generating...' : 'Generate Image'}
           </button>
