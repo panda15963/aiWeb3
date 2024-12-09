@@ -1,6 +1,7 @@
 import { KeyboardEvent, ChangeEvent, FC, useState } from 'react';
 import Navbar from '../navbar';
 import Footer from '../Footer';
+import { payForEditing, connectWallet } from "@/utils/payment1";
 
 interface AppState {
   prompt: string;
@@ -31,6 +32,19 @@ const UpscaleImages: FC = () => {
 
   const generateImage = async () => {
     setState({ ...state, loading: true, errorMessage: null });
+
+    // 결제 로직 추가
+    const wallet = await connectWallet();
+    if (!wallet) {
+      setState({ ...state, loading: false, errorMessage: "MetaMask 연결 실패" });
+      return;
+    }
+
+    const paymentSuccess = await payForEditing();
+    if (!paymentSuccess) {
+      setState({ ...state, loading: false, errorMessage: "결제 실패" });
+      return;
+    }
 
     const formData = new FormData();
     formData.append('prompt', state.prompt);
