@@ -1,7 +1,7 @@
 import { FC, useState } from 'react';
 import Navbar from '../navbar';
 import Footer from '../Footer';
-import { payForEditing, connectWallet } from "@/utils/payment2";
+import { payForEditing, connectWallet } from "@/utils/payment1";
 
 interface AppState {
   prompt: string;

@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
 // 스마트 컨트랙트 주소 및 ABI
-const contractAddress = "0x7dBb78C16f9Eb364F835e3770f802E2D3aB4E155"; // 배포한 컨트랙트 주소 입력
+const contractAddress = "0x659cd463202c9b030172765758426560234299Ef"; // 배포한 컨트랙트 주소 입력
 const abi = [
 	{
 		"inputs": [
