@@ -1,70 +1,15 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import Papa from 'papaparse';
-import axios from 'axios';
 import Navbar from '../navbar';
 import Footer from '../Footer';
 import { useUser } from '../context/UserContext';
 import { usePrice } from '../context/PriceContext';
 
 export default function TransactionAccountPage() {
-  const [csvData, setCSVData] = useState<any[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
   const [balance, setBalance] = useState<number>(0);
   const [KRWbalance, setKRWbalance] = useState<number>(0);
   const { user } = useUser();
   const { EthereumPrice } = usePrice();
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files && e.target.files[0];
-    const fileName = file?.name.split('.csv')[0].split('export-')[1];
-    if (!file) return; // add null check
-    if (fileName!== user) {
-      setCSVData([]);
-      setErrorMessage('File name does not match your address.');
-      return;
-    }
-    Papa.parse(file as File, {
-      complete: (result: any) => {
-        setCSVData(result.data.map((row: string[]) => {
-          return row.map((cell: string) => cell.trim());
-        }));
-        setErrorMessage('');
-      },
-      error: (error: any) => {
-        setCSVData([]);
-        setErrorMessage('Error parsing CSV file.');
-        console.error('Error parsing CSV file:', error);
-      }
-    });
-  };
-
-  const handleSubmit = async () => {
-    for (let i = 1; i < csvData.length; i++) {
-      const txn = {
-        txnHash: csvData[i][0],
-        from: csvData[i][5],
-        to: csvData[i][7],
-        value: csvData[i][9],
-        fee: csvData[i][10],
-        date: csvData[i][4],
-      };
-      console.log(txn);
-      try {
-        await axios.post('http://localhost:8000/api/transactions', {
-          txnHash: txn.txnHash,
-          from: txn.from,
-          to: txn.to,
-          value: txn.value,
-          fee: txn.fee,
-          date: txn.date,
-        });
-      } catch (error) {
-        console.error('Error submitting transactions:', error);
-        setErrorMessage('Error submitting transactions. Please try again later.');
-      }
-    }    
-  }
 
   const getBalance = async () => {
     if (!user) {
@@ -95,10 +40,10 @@ export default function TransactionAccountPage() {
           <div className="m-8 border-1 border-black rounded-md overflow-hidden shadow-lg">
             <h1 className="text-3xl font-bold text-center m-4">Account</h1>
             <hr className="border-black" />
-            <section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-6 text-center'>
+            <section className="flex flex-col gap-4 p-6 text-center">
               <div className="border-1 border-black rounded-md overflow-hidden p-2">
                 <h2 className="text-2xl font-bold">Address</h2>
-                <p className="text-xl">{user.slice(0, 10)}...{user.slice(-10)}</p>
+                <p className="text-xl">{user}</p>
               </div>
               <div className="border-1 border-black rounded-md overflow-hidden p-2">
                 <h2 className="text-2xl font-bold">Network</h2>
@@ -107,47 +52,6 @@ export default function TransactionAccountPage() {
               <div className="border-1 border-black rounded-md overflow-hidden p-2">
                 <h2 className="text-2xl font-bold">Balance</h2>
                 <p className="text-xl">{Math.round(balance * 1000) / 1000} ETH(\{Math.round(KRWbalance).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")})</p>
-              </div>
-            </section>
-            <section className='p-4 text-center"'>
-              <div className="border-1 border-black rounded-md overflow-hidden text-center m-2">
-                <h2 className="text-2xl font-bold">Transaction</h2>
-                <div className="flex flex-col items-center justify-center my-4">
-                  <input
-                    type="file"
-                    accept="all"
-                    onChange={handleFileChange}
-                    className="border-1 border-black rounded-md p-2"
-                  />
-                  {errorMessage && <p className="text-red-500 mb-4">{errorMessage}</p>}
-                  {csvData.length > 0 && (
-                    <>
-                      <h3 className="text-lg font-semibold mb-2">CSV Data:</h3>
-                      <div className='border rounded-lg overflow-hidden'>
-                        <table className="border-collapse w-full">
-                          <tbody>
-                            {csvData.map((col, i) => (
-                              col.some((item: string) => item.trim() !== '') && (
-                                <tr key={i} className={`border border-black ${i === 0 ? 'bg-black text-white font-bold' : ''}`}>
-                                  {col.map((cell: string, j: number) => (
-                                    [4, 5, 7, 9, 10].includes(j) && (
-                                      <td key={`${i}-${j}`} className="border border-black p-2">
-                                        {j === 5 || j === 7 ? (cell.length > 10 ? `${cell.slice(0, 10)}...` : cell) : cell}
-                                      </td>
-                                    )
-                                  ))}
-                                </tr>
-                              )))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </>
-                  )}
-                </div>
-                <button
-                  onClick={handleSubmit}
-                  className="bg-sky-600 hover:bg-sky-900 text-white font-bold py-2 px-4 rounded hover: cursor-pointer justify-center item-center m-4"
-                > Submit </button>
               </div>
             </section>
           </div >
