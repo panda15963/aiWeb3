@@ -27,7 +27,6 @@ export interface PricingTier {
   features: string[];
   featured?: boolean;
   highlighted?: boolean;
-  cta: string;
   soldOut?: boolean;
 }
 
@@ -52,7 +51,6 @@ export const tiers: PricingTier[] = [
     ],
     featured: true,
     highlighted: true,
-    cta: `Get started`,
   },
   {
     name: "Image to Image",
@@ -67,7 +65,6 @@ export const tiers: PricingTier[] = [
       `Generation of images from images`,
     ],
     featured: true,
-    cta: `Get started`,
   },
   {
     name: "Multi-Promping",
@@ -82,7 +79,6 @@ export const tiers: PricingTier[] = [
       `Generation of images from multiple texts`,
     ],
     featured: true,
-    cta: `Get started`,
   },
 ];
 
@@ -407,38 +403,7 @@ export default function PricingPage() {
                           </span>
                         </li>
                       </>
-                    ) : null}
-                    {user ? (
-                      <Link
-                        href={tier.href}
-                        aria-describedby={tier.id}
-                        className={cn(
-                          "flex mt-6 shadow-sm",
-                          tier.soldOut ? "pointer-events-none" : ""
-                        )}
-                      >
-                        <button
-                          disabled={tier.soldOut}
-                          className={cn(
-                            "w-full inline-flex items-center justify-center font-medium ring-offset-background hover:opacity-80 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-black dark:text-white h-12 rounded-md px-6 sm:px-10 text-md",
-                            tier.featured || tier.soldOut ? "grayscale" : "",
-                            !tier.highlighted && !tier.featured
-                              ? "bg-gray-100 dark:bg-gray-600 border border-solid border-gray-300 dark:border-gray-800"
-                              : "bg-slate-300/70 text-slate-foreground hover:bg-slate-400/70 dark:bg-slate-700 dark:hover:bg-slate-800/90",
-                            tier.featured ? "!bg-gray-100 dark:!bg-black" : ""
-                          )}
-                        >
-                          {tier.soldOut ? "Sold out" : tier.cta}
-                        </button>
-                      </Link>
-                    ) : (
-                      <button
-                        disabled
-                        className="bg-gray-100 text-black font-bold py-2 px-4 rounded justify-center item-center"
-                      >
-                        Sign in to generate pictures
-                      </button>
-                    )}
+                    ) : null}                    
                     <ul
                       className={cn(
                         tier.featured
