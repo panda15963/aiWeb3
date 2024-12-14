@@ -30,55 +30,54 @@ export const frequencies: PricingTierFrequency[] = [
 
 export const initialTiers: PricingTier[] = [
   {
-    name: "Text-to-Image",
+    name: "Generate Images",
     id: "0",
     href: "../generationTools/text_to_image",
     price: { "1": "Loading..." },
-    description: `Input text, get an image you want.`,
+    description: `Input texts, get images.`,
     features: [
       `Simple, easy-to-use interface`,
-      `Text-to-image generation`,
-      `Generation of images from text descriptions`,
+      `Image generation`,
+      `Generation of images from text prompts`,
     ],
     featured: true,
     highlighted: true,
   },
   {
-    name: "Image to Image",
+    name: "Remove Background",
     id: "1",
     href: "../generationTools/image_to_image",
     price: { "1": "Loading..." },
-    description: `Input image, get an image you want.`,
+    description: `Input image, get Removed Background images.`,
     features: [
       `Simple, easy-to-use interface`,
-      `Image-to-image generation`,
-      `Generation of images from images`,
+      `Removing background from images`,
     ],
     featured: true,
   },
   {
-    name: "Multi-Promping",
+    name: "Sketch Images",
     id: "2",
     href: "../generationTools/multi_promping",
     price: { "1": "Loading..." },
-    description: `Input multiple texts, get an image you want.`,
+    description: `Input images, get sketchs.`,
     features: [
       `Simple, easy-to-use interface`,
-      `Multi-promping generation`,
-      `Generation of images from multiple texts`,
+      `Sketch generation`,
+      `Generation of sketches from images`,
     ],
     featured: true,
   },
 ];
 
 // CheckIcon 컴포넌트
-const CheckIcon = ({ className }: { className?: string }) => {
+const CheckIcon = ({ className, size = "w-6 h-6" }: { className?: string; size?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 24 24"
       fill="currentColor"
-      className={`w-6 h-6 ${className}`}
+      className={`${size} ${className}`}
     >
       <path
         fillRule="evenodd"
@@ -123,55 +122,52 @@ export default function PricingPage() {
                 Pricing
               </h1>
               <div
-                className={`isolate mx-auto mt-4 mb-28 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none ${
-                  tiers.length === 2 ? "lg:grid-cols-2" : ""
-                } ${tiers.length === 3 ? "lg:grid-cols-3" : ""}`}
+                className={`isolate mx-auto mt-4 mb-28 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none ${tiers.length === 2 ? "lg:grid-cols-2" : ""
+                  } ${tiers.length === 3 ? "lg:grid-cols-3" : ""}`}
               >
                 {tiers.map((tier) => (
                   <div
                     key={tier.id}
-                    className={`max-w-xs ring-1 rounded-3xl p-8 xl:p-10 ${
-                      tier.featured
-                        ? "!bg-gray-900 ring-gray-900 dark:!bg-gray-100 dark:ring-gray-100"
-                        : "bg-white dark:bg-gray-900/80 ring-gray-300/70 dark:ring-gray-700"
-                    }`}
+                    className={`max-w-xs ring-1 rounded-3xl p-8 xl:p-10 ${tier.featured
+                      ? "!bg-gray-900 ring-gray-900 dark:!bg-gray-100 dark:ring-gray-100"
+                      : "bg-white dark:bg-gray-900/80 ring-gray-300/70 dark:ring-gray-700"
+                      }`}
                   >
                     <h3
                       id={tier.id}
-                      className={`text-2xl font-bold tracking-tight ${
-                        tier.featured ? "text-white dark:text-black" : "text-black dark:text-white"
-                      }`}
+                      className={`text-2xl font-bold tracking-tight ${tier.featured ? "text-white dark:text-black" : "text-black dark:text-white"
+                        }`}
                     >
                       {tier.name}
                     </h3>
                     <p
-                      className={`mt-4 text-sm leading-6 ${
-                        tier.featured
-                          ? "text-gray-300 dark:text-gray-500"
-                          : "text-gray-600 dark:text-gray-400"
-                      }`}
+                      className={`mt-4 text-sm leading-6 ${tier.featured
+                        ? "text-gray-300 dark:text-gray-500"
+                        : "text-gray-600 dark:text-gray-400"
+                        }`}
                     >
                       {tier.description}
                     </p>
                     <div className="mt-6 flex items-center justify-center">
                       <span
-                        className={`text-3xl font-bold ${
-                          tier.featured ? "text-white dark:text-black" : "text-black dark:text-white"
-                        }`}
+                        className={`text-3xl font-bold ${tier.featured ? "text-white dark:text-black" : "text-black dark:text-white"
+                          }`}
                       >
                         {(tier.price as Record<string, string>)[frequency.value]}
                       </span>
                     </div>
                     <ul
-                      className={`mt-8 space-y-3 text-sm leading-6 xl:mt-10 ${
-                        tier.featured
-                          ? "text-gray-300 dark:text-gray-500"
-                          : "text-gray-700 dark:text-gray-400"
-                      }`}
+                      className={`mt-8 space-y-3 text-sm leading-6 xl:mt-10 ${tier.featured
+                        ? "text-gray-300 dark:text-gray-500"
+                        : "text-gray-700 dark:text-gray-400"
+                        }`}
                     >
                       {tier.features.map((feature) => (
                         <li key={feature} className="flex gap-x-3">
-                          <CheckIcon className={tier.featured ? "text-white dark:text-black" : ""} />
+                          <CheckIcon
+                            size="w-5 h-5" // Adjust the size as needed for consistency
+                            className={tier.featured ? "text-white dark:text-black" : ""}
+                          />
                           {feature}
                         </li>
                       ))}
