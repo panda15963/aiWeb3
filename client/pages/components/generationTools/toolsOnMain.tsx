@@ -9,7 +9,6 @@ export interface InformationTools {
   description: string;
   image: string;
   tool_link: string;
-  price_link: string;
 }
 export interface ToolsOnMainProps {
   tools: InformationTools[];
@@ -20,21 +19,18 @@ const ToolsInformation: InformationTools[] = [
     description: "Input texts, get images.",
     image: "/images/stable-image-generate.gif",
     tool_link: "/components/generationTools/GenerateImages",
-    price_link: "/components/prices/pricing",
   },
   {
-    title: "Upscale Images",
+    title: "Remove Background",
     description: "Input image, get upscaled images.",
-    image: "/images/stable-image-upscale.gif",
-    tool_link: "/components/generationTools/UpscaleImages",
-    price_link: "/components/prices/pricing",
+    image: "/images/stable-image-removeBackground.gif",
+    tool_link: "/components/generationTools/RemoveBackground",
   },
   {
     title: "Sketch Images",
     description: "Input images, get sketchs.",
     image: "/images/stable-image-control.gif",
     tool_link: "/components/generationTools/SketchImages",
-    price_link: "/components/prices/pricing",
   },
 ];
 

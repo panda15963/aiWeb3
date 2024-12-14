@@ -5,9 +5,7 @@ import { payForEditing, connectWallet } from "@/utils/payment1";
 
 interface AppState {
   prompt: string;
-  negativePrompt: string;
   aspectRatio: string;
-  seed: number;
   outputFormat: string;
   image: string | null;
   loading: boolean;
@@ -17,9 +15,7 @@ interface AppState {
 const StableImageCore: FC = () => {
   const [state, setState] = useState<AppState>({
     prompt: '',
-    negativePrompt: '',
     aspectRatio: '21:9',
-    seed: 0,
     outputFormat: 'png',
     image: null,
     loading: false,
@@ -44,9 +40,7 @@ const StableImageCore: FC = () => {
 
     const formData = new FormData();
     formData.append('prompt', state.prompt);
-    formData.append('negative_prompt', state.negativePrompt || '');
     formData.append('aspect_ratio', state.aspectRatio);
-    formData.append('seed', state.seed.toString());
     formData.append('output_format', state.outputFormat);
 
     const host = `https://api.stability.ai/v2beta/stable-image/generate/core`;
@@ -130,20 +124,8 @@ const StableImageCore: FC = () => {
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Negative Prompt</label>
-            <p className="text-xs text-gray-500 mb-2">
-              Describe what you want to exclude from the image. Example: "no people", "dark background"
-            </p>
-            <input
-              type="text"
-              name="negativePrompt"
-              value={state.negativePrompt}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              title="Prompt"
+              placeholder="Enter your prompt here"
             />
           </div>
           <div className="mb-4">
@@ -153,8 +135,8 @@ const StableImageCore: FC = () => {
               value={state.aspectRatio}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-              style={{ outline: '2px solid #4A90E2', outlineOffset: '2px' }}
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md aspect-ratio-select"
+              title="Aspect Ratio"
             >
               <option value="21:9">21:9</option>
               <option value="16:9">16:9</option>
@@ -168,20 +150,6 @@ const StableImageCore: FC = () => {
             </select>
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Seed</label>
-            <p className="text-xs text-gray-500 mb-2">
-              This is a number that influences image generation. Use the same seed to get the same image with the same prompt.
-            </p>
-            <input
-              type="number"
-              name="seed"
-              value={state.seed}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-            />
-          </div>
-          <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Output Format</label>
             <p className="text-xs text-gray-500 mb-2">
               Select the file format for the generated image. Example: PNG, JPEG, WEBP
@@ -191,8 +159,8 @@ const StableImageCore: FC = () => {
               value={state.outputFormat}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-              style={{ outline: '2px solid #4A90E2', outlineOffset: '2px' }}
+              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md custom-outline"
+              title="Output Format"
             >
               <option value="webp">WEBP</option>
               <option value="jpeg">JPEG</option>

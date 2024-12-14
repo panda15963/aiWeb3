@@ -21,7 +21,6 @@ export interface PricingTier {
   name: string;
   id: string;
   href: string;
-  discountPrice: string | Record<string, string>;
   price: string | Record<string, string>;
   description: string | React.ReactNode;
   features: string[];
@@ -41,8 +40,7 @@ export const tiers: PricingTier[] = [
     name: "Text-to-Image",
     id: "0",
     href: "../generationTools/text_to_image",
-    price: { "1": "₩ 2,000" },
-    discountPrice: { "1": "" },
+    price: { "1": "100 MODIM" },
     description: `Input text, get an image what you want.`,
     features: [
       `Simple, easy-to-use interface`,
@@ -56,8 +54,7 @@ export const tiers: PricingTier[] = [
     name: "Image to Image",
     id: "1",
     href: "../generationTools/image_to_image",
-    price: { "1": "₩ 3,000" },
-    discountPrice: { "1": "" },
+    price: { "1": "100 MODIM" },
     description: `Input image, get an image what you want.`,
     features: [
       `Simple, easy-to-use interface`,
@@ -70,8 +67,7 @@ export const tiers: PricingTier[] = [
     name: "Multi-Promping",
     id: "2",
     href: "../generationTools/multi_promping",
-    price: { "1": "₩ 6,000" },
-    discountPrice: { "1": "" },
+    price: { "1": "100 MODIM" },
     description: `Input multiple texts, get an image what you want.`,
     features: [
       `Simple, easy-to-use interface`,
@@ -106,14 +102,13 @@ const cn = (...args: Array<string | boolean | undefined | null>) =>
 export default function PricingPage() {
   const [frequency, setFrequency] = useState(frequencies[0]);
   const bannerText = "";
-  const { user } = useUser();
   const { BitcoinCashPrice, EthereumPrice, BitcoinPrice } = usePrice()
   const txt_to_img = [2000 / Number(BitcoinCashPrice), 2000 / Number(EthereumPrice), 2000 / Number(BitcoinPrice)];
   const img_to_img = [3000 / Number(BitcoinCashPrice), 3000 / Number(EthereumPrice), 3000 / Number(BitcoinPrice)];
   const multi_promping = [6000 / Number(BitcoinCashPrice), 6000 / Number(EthereumPrice), 6000 / Number(BitcoinPrice)];
   return (
     <>
-      <div className="flex flex-col min-h-screen bg-white" style={{ height: "100%" }}>
+      <div className={`flex flex-col min-h-screen bg-white ${styles.fullHeight}`}>
         <Navbar />
         <div
           className={cn("flex flex-col w-full items-center")}
@@ -141,7 +136,7 @@ export default function PricingPage() {
                     role="radiogroup"
                     className="grid gap-x-1 rounded-full p-1 text-center text-xs font-semibold leading-5 bg-white dark:bg-black ring-1 ring-inset ring-gray-200/30 dark:ring-gray-800"
                     style={{
-                      gridTemplateColumns: `repeat(${frequencies.length}, minmax(0, 1fr))`,
+                      gridTemplateColumns: `repeat(${frequencies.length}, minmax(0, 1fr))`
                     }}
                   >
                     <p className="sr-only">Payment frequency</p>
@@ -163,7 +158,7 @@ export default function PricingPage() {
                           id={option.value}
                           className="hidden"
                           role="radio"
-                          aria-checked={frequency.value === option.value}
+                          aria-checked={frequency.value === option.value ? "true" : "false"}
                           onClick={() => {
                             setFrequency(
                               frequencies.find(
@@ -221,189 +216,6 @@ export default function PricingPage() {
                     >
                       {tier.description}
                     </p>
-                    <p className="mt-6 flex items-baseline gap-x-1">
-                      <span
-                        className={cn(
-                          tier.featured
-                            ? "text-white dark:text-black"
-                            : "text-black dark:text-white",
-                          "text-4xl font-bold tracking-tight",
-                          tier.discountPrice &&
-                            (tier.discountPrice as Record<string, string>)[
-                            frequency.value
-                            ]
-                            ? "line-through"
-                            : ""
-                        )}
-                      >
-                        {typeof tier.price === "string"
-                          ? tier.price
-                          : tier.price[frequency.value]}
-                      </span>
-
-                      <span
-                        className={cn(
-                          tier.featured
-                            ? "text-white dark:text-black"
-                            : "text-black dark:text-white"
-                        )}
-                      >
-                        {typeof tier.discountPrice === "string"
-                          ? tier.discountPrice
-                          : tier.discountPrice[frequency.value]}
-                      </span>
-
-                      {typeof tier.price !== "string" ? (
-                        <span
-                          className={cn(
-                            tier.featured
-                              ? "text-gray-300 dark:text-gray-500"
-                              : "dark:text-gray-400 text-gray-600",
-                            "text-sm font-semibold leading-6"
-                          )}
-                        >
-                          {frequency.priceSuffix}
-                        </span>
-                      ) : null}
-                    </p>
-                    {tier.name === "Text-to-Image" ? (
-                      <>
-                        <li className="flex gap-x-3">
-                          <SiBitcoincash className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {txt_to_img[0].toFixed(5)}
-                          </span>
-                        </li>
-                        <li className="flex gap-x-3">
-                          <SiBitcoin className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {txt_to_img[1].toFixed(5)}
-                          </span>
-                        </li>
-                        <li className="flex gap-x-3">
-                          <SiEthereum className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {txt_to_img[2].toFixed(5)}
-                          </span>
-                        </li>
-                      </>
-                    ) : null}
-                    {tier.name === "Image to Image" ? (
-                      <>
-                        <li className="flex gap-x-3">
-                          <SiBitcoincash className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {img_to_img[0].toFixed(5)}
-                          </span>
-                        </li>
-                        <li className="flex gap-x-3">
-                          <SiBitcoin className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {img_to_img[1].toFixed(5)}
-                          </span>
-                        </li>
-                        <li className="flex gap-x-3">
-                          <SiEthereum className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {img_to_img[2].toFixed(5)}
-                          </span>
-                        </li>
-                      </>
-                    ) : null}
-                    {tier.name === "Multi-Promping" ? (
-                      <>
-                        <li className="flex gap-x-3">
-                          <SiBitcoincash className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {multi_promping[0].toFixed(5)}
-                          </span>
-                        </li>
-                        <li className="flex gap-x-3">
-                          <SiBitcoin className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {multi_promping[1].toFixed(5)}
-                          </span>
-                        </li>
-                        <li className="flex gap-x-3">
-                          <SiEthereum className={cn(
-                            tier.featured ? "text-white dark:text-black" : "",
-                            tier.highlighted
-                              ? "text-slate-500"
-                              : "text-gray-500",
-
-                            "h-6 w-5 flex-none"
-                          )}
-                            aria-hidden="true" />
-                          <span className="text-white dark:text-white text-lg font-bold tracking-tight">
-                            {multi_promping[2].toFixed(5)}
-                          </span>
-                        </li>
-                      </>
-                    ) : null}                    
                     <ul
                       className={cn(
                         tier.featured
