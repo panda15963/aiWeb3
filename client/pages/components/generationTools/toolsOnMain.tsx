@@ -15,20 +15,20 @@ export interface ToolsOnMainProps {
 }
 const ToolsInformation: InformationTools[] = [
   {
-    title: "Generate Images",
-    description: "Input texts, get images.",
+    title: "Generate an Image",
+    description: "Input a text prompt, get an image.",
     image: "/images/stable-image-generate.gif",
     tool_link: "/components/generationTools/GenerateImages",
   },
   {
-    title: "Remove Background",
-    description: "Input image, get Removed Background images.",
+    title: "Background Removal",
+    description: "Input an image, get a Background Removal.",
     image: "/images/stable-image-removeBackground.gif",
     tool_link: "/components/generationTools/RemoveBackground",
   },
   {
-    title: "Sketch Images",
-    description: "Input images, get sketchs.",
+    title: "Sketch an Image",
+    description: "Input an image and a text propmt, get a sketch.",
     image: "/images/stable-image-control.gif",
     tool_link: "/components/generationTools/SketchImages",
   },

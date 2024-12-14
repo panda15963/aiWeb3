@@ -30,41 +30,41 @@ export const frequencies: PricingTierFrequency[] = [
 
 export const initialTiers: PricingTier[] = [
   {
-    name: "Generate Images",
+    name: "Generate an Image",
     id: "0",
     href: "../generationTools/text_to_image",
     price: { "1": "Loading..." },
-    description: `Input texts, get images.`,
+    description: `Input a text prompt, get an image.`,
     features: [
       `Simple, easy-to-use interface`,
       `Image generation`,
-      `Generation of images from text prompts`,
+      `Generation of an image from a text prompt`,
     ],
     featured: true,
     highlighted: true,
   },
   {
-    name: "Remove Background",
+    name: "Background Removal",
     id: "1",
     href: "../generationTools/image_to_image",
     price: { "1": "Loading..." },
-    description: `Input image, get Removed Background images.`,
+    description: `Input an image, get a Background Removal.`,
     features: [
       `Simple, easy-to-use interface`,
-      `Removing background from images`,
+      `Removing background from an image`,
     ],
     featured: true,
   },
   {
-    name: "Sketch Images",
+    name: "Sketch an Image",
     id: "2",
     href: "../generationTools/multi_promping",
     price: { "1": "Loading..." },
-    description: `Input images, get sketchs.`,
+    description: `Input an image and a text propmt, get a sketch.`,
     features: [
       `Simple, easy-to-use interface`,
       `Sketch generation`,
-      `Generation of sketches from images`,
+      `Generation of a sketch from an image`,
     ],
     featured: true,
   },
@@ -128,20 +128,20 @@ export default function PricingPage() {
                 {tiers.map((tier) => (
                   <div
                     key={tier.id}
-                    className={`max-w-xs ring-1 rounded-3xl p-8 xl:p-10 ${tier.featured
+                    className={`max-w-xs ring-1 rounded-3xl p-8 xl:p-10 flex flex-col items-center ${tier.featured
                       ? "!bg-gray-900 ring-gray-900 dark:!bg-gray-100 dark:ring-gray-100"
                       : "bg-white dark:bg-gray-900/80 ring-gray-300/70 dark:ring-gray-700"
                       }`}
                   >
                     <h3
                       id={tier.id}
-                      className={`text-2xl font-bold tracking-tight ${tier.featured ? "text-white dark:text-black" : "text-black dark:text-white"
+                      className={`text-2xl font-bold tracking-tight text-center ${tier.featured ? "text-white dark:text-black" : "text-black dark:text-white"
                         }`}
                     >
                       {tier.name}
                     </h3>
                     <p
-                      className={`mt-4 text-sm leading-6 ${tier.featured
+                      className={`mt-4 text-sm leading-6 text-center ${tier.featured
                         ? "text-gray-300 dark:text-gray-500"
                         : "text-gray-600 dark:text-gray-400"
                         }`}
