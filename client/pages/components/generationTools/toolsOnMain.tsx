@@ -22,7 +22,7 @@ const ToolsInformation: InformationTools[] = [
   },
   {
     title: "Remove Background",
-    description: "Input image, get upscaled images.",
+    description: "Input image, get Removed Background images.",
     image: "/images/stable-image-removeBackground.gif",
     tool_link: "/components/generationTools/RemoveBackground",
   },
