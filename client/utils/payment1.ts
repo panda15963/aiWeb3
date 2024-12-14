@@ -537,3 +537,26 @@ export const payForEditing = async (): Promise<boolean> => {
   alert("MetaMask가 설치되어 있지 않습니다.");
   return false;
 };
+
+// MODIM 잔액 조회 함수
+export const getModimBalance = async (userAddress: string): Promise<number> => {
+	if (typeof window.ethereum === "undefined") {
+	  throw new Error("MetaMask is not installed");
+	}
+  
+	try {
+	  const provider = new ethers.providers.Web3Provider(window.ethereum);
+	  const signer = provider.getSigner();
+	  const contract = new ethers.Contract(contractAddress, abi, signer);
+  
+	  // 사용자 잔액 및 토큰 소수점 자릿수 가져오기
+	  const balance = await contract.balanceOf(userAddress);
+	  const decimals = await contract.decimals();
+  
+	  // 잔액을 사람이 읽을 수 있는 형태로 변환
+	  return parseFloat(ethers.utils.formatUnits(balance, decimals));
+	} catch (error) {
+	  console.error("Error fetching MODIM balance:", error);
+	  return 0; // 오류 발생 시 0 반환
+	}
+  };
