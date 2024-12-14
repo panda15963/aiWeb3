@@ -1,19 +1,13 @@
 import { useState } from "react";
-import Link from "next/link";
 import Navbar from "../navbar";
 import Footer from "../Footer";
-import { useUser } from "../context/UserContext";
-import { usePrice } from "../context/PriceContext";
 import styles from "./pricing.module.css";
-import { SiBitcoincash, SiBitcoin, SiEthereum } from "react-icons/si";
 
-
-// Define an interface for PricingTierFrequency, containing id, value, label, and priceSuffix properties
+// Define an interface for PricingTierFrequency, containing id, value and label properties
 export interface PricingTierFrequency {
   id: string;
   value: string;
   label: string;
-  priceSuffix: string;
 }
 
 // Define an interface for PricingTier, containing name, id, href, discountPrice, price, description, features, featured, highlighted, cta, and soldOut properties
@@ -31,7 +25,7 @@ export interface PricingTier {
 
 // Initialize an array of frequencies with one object
 export const frequencies: PricingTierFrequency[] = [
-  { id: "1", value: "1", label: "Every Times", priceSuffix: "/usage" },
+  { id: "1", value: "1", label: "Every Times" },
 ];
 
 // Initialize an array of tiers with three objects
@@ -102,10 +96,6 @@ const cn = (...args: Array<string | boolean | undefined | null>) =>
 export default function PricingPage() {
   const [frequency, setFrequency] = useState(frequencies[0]);
   const bannerText = "";
-  const { BitcoinCashPrice, EthereumPrice, BitcoinPrice } = usePrice()
-  const txt_to_img = [2000 / Number(BitcoinCashPrice), 2000 / Number(EthereumPrice), 2000 / Number(BitcoinPrice)];
-  const img_to_img = [3000 / Number(BitcoinCashPrice), 3000 / Number(EthereumPrice), 3000 / Number(BitcoinPrice)];
-  const multi_promping = [6000 / Number(BitcoinCashPrice), 6000 / Number(EthereumPrice), 6000 / Number(BitcoinPrice)];
   return (
     <>
       <div className={`flex flex-col min-h-screen bg-white ${styles.fullHeight}`}>
@@ -152,7 +142,6 @@ export default function PricingPage() {
                         htmlFor={option.value}
                       >
                         {option.label}
-
                         <button
                           value={option.value}
                           id={option.value}
@@ -175,9 +164,7 @@ export default function PricingPage() {
                 </div>
               ) : (
                 <div className="mt-12" aria-hidden="true"></div>
-              )}
-
-              <div
+              )}              <div
                 className={cn(
                   "isolate mx-auto mt-4 mb-28 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none select-none",
                   tiers.length === 2 ? "lg:grid-cols-2" : "",
@@ -216,6 +203,18 @@ export default function PricingPage() {
                     >
                       {tier.description}
                     </p>
+                    <div className="mt-6 flex items-center justify-center">
+                      <span
+                        className={cn(
+                          tier.featured
+                            ? "text-white dark:text-black"
+                            : "text-black dark:text-white",
+                          "text-3xl font-bold"
+                        )}
+                      >
+                        {(tier.price as Record<string, string>)[frequency.value]}
+                      </span>
+                    </div>
                     <ul
                       className={cn(
                         tier.featured
