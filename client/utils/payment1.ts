@@ -560,3 +560,26 @@ export const getModimBalance = async (userAddress: string): Promise<number> => {
 	  return 0; // 오류 발생 시 0 반환
 	}
   };
+
+// MODIM 수수료 조회 함수
+export const getEditFee = async (): Promise<number> => {
+	if (typeof window.ethereum === "undefined") {
+	  throw new Error("MetaMask is not installed");
+	}
+  
+	try {
+	  const provider = new ethers.providers.Web3Provider(window.ethereum);
+	  const signer = provider.getSigner();
+	  const contract = new ethers.Contract(contractAddress, abi, signer);
+  
+	  // `editFee` 값 가져오기
+	  const fee = await contract.editFee();
+	  const decimals = await contract.decimals();
+  
+	  // 수수료 값을 사람이 읽을 수 있는 형태로 변환
+	  return parseFloat(ethers.utils.formatUnits(fee, decimals));
+	} catch (error) {
+	  console.error("Error fetching edit fee:", error);
+	  return 0; // 오류 발생 시 0 반환
+	}
+  };  
