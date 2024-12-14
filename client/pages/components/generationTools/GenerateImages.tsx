@@ -5,7 +5,6 @@ import { payForEditing, connectWallet } from "@/utils/payment1";
 
 interface AppState {
   prompt: string;
-  aspectRatio: string;
   outputFormat: string;
   image: string | null;
   loading: boolean;
@@ -15,7 +14,6 @@ interface AppState {
 const StableImageCore: FC = () => {
   const [state, setState] = useState<AppState>({
     prompt: '',
-    aspectRatio: '21:9',
     outputFormat: 'png',
     image: null,
     loading: false,
@@ -40,7 +38,6 @@ const StableImageCore: FC = () => {
 
     const formData = new FormData();
     formData.append('prompt', state.prompt);
-    formData.append('aspect_ratio', state.aspectRatio);
     formData.append('output_format', state.outputFormat);
 
     const host = `https://api.stability.ai/v2beta/stable-image/generate/core`;
@@ -127,27 +124,6 @@ const StableImageCore: FC = () => {
               title="Prompt"
               placeholder="Enter your prompt here"
             />
-          </div>
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700">Aspect Ratio</label>
-            <select
-              name="aspectRatio"
-              value={state.aspectRatio}
-              onChange={handleInputChange}
-              onKeyDown={handleKeyDown}
-              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md aspect-ratio-select"
-              title="Aspect Ratio"
-            >
-              <option value="21:9">21:9</option>
-              <option value="16:9">16:9</option>
-              <option value="3:2">3:2</option>
-              <option value="5:4">5:4</option>
-              <option value="1:1">1:1</option>
-              <option value="4:5">4:5</option>
-              <option value="2:3">2:3</option>
-              <option value="9:16">9:16</option>
-              <option value="9:21">9:21</option>
-            </select>
           </div>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Output Format</label>

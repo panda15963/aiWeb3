@@ -69,7 +69,7 @@ export default function TransactionAccountPage() {
               </div>
               <div className="border-1 border-black rounded-md overflow-hidden p-2">
                 <h2 className="text-2xl font-bold">Network</h2>
-                <p className="text-xl">Ethereum</p>
+                <p className="text-xl">Sepolia</p>
               </div>
               <div className="border-1 border-black rounded-md overflow-hidden p-2">
                 <h2 className="text-2xl font-bold">Balance</h2>

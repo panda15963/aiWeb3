@@ -129,6 +129,9 @@ const SketchImages: FC = () => {
       <div className="flex flex-col items-center min-h-screen bg-gray-100 text-gray-900 p-4">
         <div className="w-full max-w-2xl p-6 bg-white rounded-md shadow-md">
           <h1 className="text-xl font-bold mb-4 text-center">Sketch to Image</h1>
+          <p className="text-center text-red-500 mb-4">
+            Note: This application is only available in English.
+          </p>
           <div className="mb-4">
             <label className="block text-sm font-medium text-gray-700">Prompt</label>
             <p className="text-xs text-gray-500 mb-2">Describe the content of the image you want to generate.</p>

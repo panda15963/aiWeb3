@@ -108,10 +108,6 @@ export default function PricingPage() {
               <h1 className="text-black dark:text-white text-2xl font-semibold max-w-xs sm:max-w-none md:text-5xl !leading-tight">
                 Pricing
               </h1>
-              <p className="mt-4 text-gray-600 dark:text-gray-400 text-lg font-bold max-w-md text-center">
-                ※ When you use the service, you will be charged in Etherium (ETH)
-                Currency according to the usage.
-              </p>
               {bannerText ? (
                 <div className="w-full lg:w-auto flex justify-center my-4">
                   <p className="w-full px-4 py-3 text-xs bg-slate-100 text-black dark:bg-slate-300/30 dark:text-white/80 rounded-xl">
